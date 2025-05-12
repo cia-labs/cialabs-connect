@@ -1,5 +1,9 @@
 @import "tailwindcss";
  
+
+body {
+  background-color: black;
+}
 @theme inline {
   --animate-aurora: aurora 60s linear infinite;
   @keyframes aurora {
