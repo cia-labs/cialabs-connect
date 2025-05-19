@@ -17,7 +17,7 @@ export default function Home() {
 
         <h1 className=" text-xl">
           
-            CIA <b>Labs</b>
+            CIA <b>Labs</b> Dev Route
             
         </h1>
 
