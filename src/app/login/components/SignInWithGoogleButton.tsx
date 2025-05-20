@@ -8,12 +8,12 @@ const SignInWithGoogleButton = () => {
     <Button
       type="button"
       variant="outline"
-      className="w-full"
+      className="w-full bg-white text-black"
       onClick={() => {
         signInWithGoogle();
-      }}
+    }}
     >
-      Login with Google
+    Login with&nbsp;<b>Google</b>
     </Button>
   );
 };

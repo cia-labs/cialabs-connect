@@ -44,7 +44,7 @@ export function LoginForm() {
                 </div>
                 <Input id="password" name="password" type="password" required />
               </div>
-              <Button type="submit" formAction={login} className="w-full border-white border-2">
+              <Button type="submit" formAction={login} className="w-full border-2 border-white">
                 Login
               </Button>
              <SignInWithGoogleButton/> 
