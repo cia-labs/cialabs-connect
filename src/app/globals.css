@@ -4,6 +4,19 @@
 body {
   background-color: black;
 }
+
+@layer base {
+  :root {
+    /* COLORS */
+    --primary-color: #C2F970;
+    /* --accent-color: #E4E3F6;
+    --error-color: #FF7F81; */
+    --bg-color: #0A0908;
+    /* --search-color: #F0EEF7;
+    --add-btn: #4D55CC;
+    --box-color : #fff; */
+}
+}
 @theme inline {
   --animate-aurora: aurora 60s linear infinite;
   @keyframes aurora {
