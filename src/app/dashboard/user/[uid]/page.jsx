@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { useParams } from "next/navigation";
 
 import Gradient from "@/components/HighLevelComponents/TopGradient/Gradient"
 
@@ -11,12 +12,11 @@ import GetQrScanQrBTN from "@dashboard/GetQRScan/button"
 import NavBar from "@dashboard/NavBar"
 import SideBar from "@dashboard/SideBar"
 
-export default function UserPage({ params }) {
+export default function UserPage() {
 
+const { uid } = useParams();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [searchOpen, setsearchOpen] = useState(false);
-
-  const {uid} = params;
 
   return (
     <>
