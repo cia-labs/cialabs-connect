@@ -15,13 +15,13 @@ export default function NavBar({setsearchOpen, setSidebarOpen }) {
             </button>
           </div>
           <div className="flex flex-row gap-5 ">
-            <button className=' opacity-40 hover:opacity-100 transition-all' onClick={() => setsearchOpen(true)}>
+            <button className=' opacity-40 active:opacity-100 transition-all active:text-lg' onClick={() => setsearchOpen(true)}>
               <SearchOutlinedIcon
                 sx={{ fontSize: 28 }}
                 color="inherit"
               />
             </button>
-            <button className=" text-[#9F3734] hover:text-[#ff625c] transition-all">
+            <button className=" text-[#9F3734] active:text-[#ff625c] transition-all active:text-lg">
               <BookmarkIcon sx={{ fontSize: 28 }} htmlColor="#A03734" />
             </button>
           </div>
