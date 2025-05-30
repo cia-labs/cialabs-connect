@@ -15,14 +15,18 @@ export async function login(formData: FormData) {
     password: formData.get("password") as string,
   };
 
-  const { error } = await supabase.auth.signInWithPassword(data);
+  const { error, data: sessionData } = await supabase.auth.signInWithPassword(
+    data
+  );
 
-  if (error) {
+  if (error || !sessionData.user) {
     redirect("/error");
   }
 
+  const uid = sessionData.user.id;
+
   revalidatePath("/", "layout");
-  redirect("/");
+  redirect(`/dashboard/user/${uid}`);
 }
 
 export async function signup(formData: FormData) {
@@ -43,14 +47,15 @@ export async function signup(formData: FormData) {
     },
   };
 
-  const { error } = await supabase.auth.signUp(data);
+  const { error, data: sessionData } = await supabase.auth.signUp(data);
 
   if (error) {
     redirect("/error");
-  }
 
+  }
+  const uid = sessionData.user.id;
   revalidatePath("/", "layout");
-  redirect("/");
+  redirect(`/dashboard/user/${uid}`);
 }
 
 export async function signout() {
@@ -66,9 +71,11 @@ export async function signout() {
 
 export async function signInWithGoogle() {
   const supabase = createClient();
+
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: "google",
     options: {
+      redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback`, // example: http://localhost:3000/auth/callback
       queryParams: {
         access_type: "offline",
         prompt: "consent",
@@ -81,5 +88,5 @@ export async function signInWithGoogle() {
     redirect("/error");
   }
 
-  redirect(data.url);
+  redirect(data.url); // this takes the user to Google
 }

@@ -2,7 +2,6 @@ import Image from "next/image";
 import UserGreetText from "@/components/UserGreetText";
 
 import React from "react";
-import BackgroundLines from "@/components/ui/background-lines";
 import LoginButton from "@/components/LoginLogoutButton";
 
 export default function Home() {
@@ -23,7 +22,8 @@ export default function Home() {
       </nav>
 
       <div className=" text-white">
-        <UserGreetText />
+        <UserGreetText /> <br />
+        <a href="/auth/callback">Go To Dashboard</a>
       </div>
     </div>
   );

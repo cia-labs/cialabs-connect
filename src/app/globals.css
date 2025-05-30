@@ -2,7 +2,21 @@
  
 
 body {
-  background-color: black;
+  background-color: var(--bg-color);
+}
+
+.hide-scrollbar-x {
+  overflow-x: auto;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;  /* IE and Edge */
+}
+
+.animation_search {
+  transition: height 0ms 0ms, opacity 400ms 0ms;
+}
+
+.hide-scrollbar-x::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
 }
 
 @layer base {
