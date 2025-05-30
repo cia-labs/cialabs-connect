@@ -12,11 +12,11 @@ export default function GetQrScanQrBTN({uid}) {
     <div className="fixed bottom-14 z-40 backdrop-blur left-1/2 -translate-x-1/2 w-[60vw] lg:w-[30vw] h-[7vh] border border-[#363535] rounded-[30px] flex flex-row">
       <button
         onClick={handleClickOR}
-        className="w-[50%] h-full text-white flex flex-row justify-center items-center gap-2"
+        className="w-[50%] h-full text-[#a1a1a1] transition-all focus:text-white focus:text-lg flex flex-row justify-center items-center gap-2"
       >
         Get QR <QrCodeRoundedIcon />
       </button>
-      <button className="w-[50%] h-full text-black flex flex-row justify-center items-center gap-2 bg-[#C2F970] rounded-r-[30px] ">
+      <button className="w-[50%] h-full text-black/70 focus:text-lg transition-all focus:text-black flex flex-row justify-center items-center gap-2 bg-[#C2F970] rounded-r-[30px] ">
         Scan <CropFreeRoundedIcon />
       </button>
     </div>

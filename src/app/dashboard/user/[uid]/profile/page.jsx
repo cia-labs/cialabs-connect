@@ -18,7 +18,7 @@ function page() {
       <div className="w-screen h-screen text-white flex flex-col px-7 ">
         <div className="w-full h-[9vh] mt-5 flex flex-row justify-between items-center lg:px-[10vw]">
           <button
-            className="flex flex-row justify-center items-center gap-2 opacity-80"
+            className="flex flex-row justify-center items-center gap-2 opacity-40 transition-all hover:opacity-100"
             onClick={handleBack}
           >
             <KeyboardBackspaceRoundedIcon fontSize="large" />{" "}

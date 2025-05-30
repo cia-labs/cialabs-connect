@@ -39,17 +39,15 @@ export default function SideBar({ sidebarOpen, setSidebarOpen, uid }) {
         <div className=" mt-12 w-full h-[1px] bg-white opacity-30"></div>
 
         <div className="mt-8 flex flex-col w-full px-4 font-medium">
-          <div className=" flex flex-row justify-between items-center">
-            <button onClick={handleClickVP}>
+          <button onClick={handleClickVP} className=" text-[#a1a1a1] transition-all hover:text-white flex flex-row justify-between items-center">
               <span>View Profile</span>
-              <NavigateNextIcon />
-            </button>
-          </div>
-          <div className="mt-4 flex flex-row justify-between items-center">
-            <button>
+            <NavigateNextIcon />
+          </button>
+          <div className="mt-4 flex flex-row justify-between items-center text-[#a1a1a1] transition-all hover:text-white">
+            
               <span>Connentions</span>
+            
               <NavigateNextIcon />
-            </button>
           </div>
         </div>
       </div>
