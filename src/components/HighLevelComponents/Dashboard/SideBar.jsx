@@ -6,9 +6,14 @@ import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 
 export default function SideBar({ sidebarOpen, setSidebarOpen, uid,profilepic,name }) {
   const router = useRouter();
-    const handleClickVP = () => {
+  useEffect(() => {
+    router.prefetch(`/dashboard/user/${uid}/QR`);
+  }, [uid]);
+
+  const handleClickVP = () => {
     router.push(`/dashboard/user/${uid}/profile`);
   };
+
   return (
     <>
       {sidebarOpen && (
