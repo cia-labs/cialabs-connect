@@ -96,7 +96,7 @@ export default function UserPage() {
         uid={user.id}
       />
       {/* Search */}
-      <SearchModal uid={uid} setSearchOpen={setsearchOpen} searchOpen={searchOpen} />
+      <SearchModal uid={user.id} setSearchOpen={setsearchOpen} searchOpen={searchOpen} />
       {/* Top Gradient */}
       <Gradient />
       <div className="w-screen h-screen text-white flex flex-col">
