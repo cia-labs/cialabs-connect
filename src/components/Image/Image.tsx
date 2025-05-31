@@ -8,7 +8,7 @@ type MyImageProps = {
   blurDataURL?: string;
 };
 
-export function MyImage({ alt, src, blurDataURL }: MyImageProps) {
+export function MyImage({ alt, src }: MyImageProps) {
   return (
     <div>
       <Image
@@ -16,9 +16,6 @@ export function MyImage({ alt, src, blurDataURL }: MyImageProps) {
         alt={alt}
         fill
         style={{ objectFit: 'cover' }}
-        priority
-        placeholder={blurDataURL ? 'blur' : undefined}
-        blurDataURL={blurDataURL}
       />
     </div>
   );
