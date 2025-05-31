@@ -76,7 +76,9 @@ export default function UserPage() {
   }, [uid]);
 
   if (user === null) {
-    return <div className="text-white">Please log in to view this page.</div>;
+    return <div className="text-white text-center w-screen h-screen flex flex-row justify-center items-center">Please log in to view this page.
+        <a href="/login" className=" underline font-bold ml-2 text-[var(--primary-color)] ">Go to Login</a>
+    </div>;
   }
 
   if (loading) {
