@@ -4,7 +4,7 @@ import { MyImage } from "@/components/Image/Image";
 import UserGreetText from "@/components/UserGreetText";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 
-export default function SideBar({ sidebarOpen, setSidebarOpen, uid }) {
+export default function SideBar({ sidebarOpen, setSidebarOpen, uid,profilepic,name }) {
   const router = useRouter();
     const handleClickVP = () => {
     router.push(`/dashboard/user/${uid}/profile`);
@@ -28,11 +28,11 @@ export default function SideBar({ sidebarOpen, setSidebarOpen, uid }) {
           <div className=" w-24 h-24 rounded-full overflow-hidden relative">
             <MyImage
               alt="Profile Pic"
-              src="https://images.unsplash.com/photo-1425082661705-1834bfd09dca?q=80&w=2676&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+              src={profilepic}
             />
           </div>
           <div className=" text-xl mt-4 text-center">
-            <UserGreetText />
+            {name}
           </div>
         </div>
 

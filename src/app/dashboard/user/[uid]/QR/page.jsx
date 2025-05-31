@@ -1,18 +1,55 @@
 "use client";
-import React from "react";
+import React, {useState, useEffect} from "react";
 import { MyImage } from "@/components/Image/Image";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import KeyboardBackspaceRoundedIcon from "@mui/icons-material/KeyboardBackspaceRounded";
+import UserGreetText from "@/components/UserGreetText";
+import { createClient } from "@/utils/supabase/client";
+import { useParams } from "next/navigation";
 
 import { useRouter } from "next/navigation";
 
 function page() {
   const router = useRouter();
-
+  const params = useParams();
+  const uid = params.uid;
   const handleBack = () => {
     router.back(); // Navigates to the previous page
   };
+
+    const [profile, setProfile] = useState({
+      name: "",
+      profilepic: "",
+      branch: "",
+    });
+  
+    useEffect(() => {
+      const supabase = createClient();
+  
+      async function fetchProfile() {
+        if (!uid) return;
+  
+        const { data, error } = await supabase
+          .from("profiles")
+          .select("full_name, profile_img, branch")
+          .eq("user_id", uid)
+          .single();
+  
+        if (error) {
+          console.error("Failed to fetch profile", error);
+          return;
+        }
+  
+        setProfile({
+          name: data.full_name ?? "",
+          profilepic: data.profile_img ?? "",
+          branch: data.branch ?? "",
+        });
+      }
+  
+      fetchProfile();
+    }, [uid]);
   return (
     <>
       <div className="fixed -z-10 top-0 w-screen h-[10vh] blur-3xl opacity-40 bg-gradient-to-br from-[#F97070] to-[#64A5FF]"></div>
@@ -45,8 +82,8 @@ function page() {
             <MyImage src="/qr-code.svg" alt="QR" />
           </div>
 
-          <div className=" text-2xl mt-6 font-semibold">Yash</div>
-          <div className=" mt-1 opacity-40">CSE</div>
+          <div className=" text-2xl mt-6 font-semibold">{profile.name}</div>
+          <div className=" mt-1 opacity-40">{profile.branch}</div>
         </div>
       </div>
     </>
