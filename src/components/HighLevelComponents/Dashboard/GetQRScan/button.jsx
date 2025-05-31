@@ -8,16 +8,17 @@ export default function GetQrScanQrBTN({uid}) {
     useEffect(() => {
   router.prefetch(`/dashboard/user/${uid}/QR`);
 }, [uid]);
+
   const handleClickOR = () => {
     router.push(`/dashboard/user/${uid}/QR`);
   };
 
   return (
-    <div className="fixed bottom-14 z-40 backdrop-blur left-1/2 -translate-x-1/2 w-[60vw] lg:w-[30vw] h-[7vh] border border-[#363535] rounded-[30px] flex flex-row">
+    <div className="fixed bottom-14 z-40 backdrop-blur-lg   bg-black/20 left-1/2 -translate-x-1/2 w-[60vw] lg:w-[30vw] h-[7vh] border border-[#717171] rounded-[30px] flex flex-row">
       <button
         //href={`/dashboard/user/${uid}/QR`}
         onClick={handleClickOR}
-        className="w-[50%] h-full text-[#a1a1a1] transition-all  active:text-white active:text-lg flex flex-row justify-center items-center gap-2"
+        className="w-[50%] h-full text-white active:text-lg flex flex-row justify-center items-center gap-2 "
       >
         Get QR <QrCodeRoundedIcon />
       </button>

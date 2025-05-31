@@ -1,14 +1,14 @@
 import React from 'react'
 import StarIcon from "@mui/icons-material/Star";
 import GroupsIcon from "@mui/icons-material/Groups";
-import UserGreetText from "@/components/UserGreetText";
 
-export default function WelcomeData({reward, ppI}) {
+
+export default function WelcomeData({reward, ppI , name}) {
   return (
     <>
     <div className="mt-[4vh] text-[1.5rem] px-7 lg:px-[10vw]">
           <h1>
-            Welcome <b><UserGreetText /></b>
+            Welcome <b>{name}</b>
           </h1>
         </div>
 

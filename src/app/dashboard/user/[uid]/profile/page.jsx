@@ -81,7 +81,7 @@ function Page() {
         {/* Profile Section */}
         <div className="mt-12 w-full h-fit flex flex-col justify-center items-center">
           <div className="w-52 h-52 rounded-full overflow-hidden relative">
-            <MyImage alt="Profile Pic" src={profile.profilepic} />
+            <MyImage w={300} h={300} alt="Profile Pic" src={profile.profilepic} />
           </div>
 
           <div className="text-2xl mt-6 font-semibold">{profile.name}</div>

@@ -9,6 +9,8 @@ export default function NavBar({setsearchOpen, setSidebarOpen,profilepic }) {
           <div className="w-12 h-12 rounded-full overflow-hidden relative">
             <button onClick={() => setSidebarOpen(true)}>
               <MyImage
+                w={60}
+                h={60}
                 alt="Profile Pic"
                 src={profilepic}
               />

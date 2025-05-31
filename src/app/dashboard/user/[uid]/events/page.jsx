@@ -5,13 +5,13 @@ import { useParams } from "next/navigation";
 
 import Gradient from "@/components/HighLevelComponents/TopGradient/Gradient";
 
-import WelcomeData from "@dashboard/Welcome-Data";
-import Events from "@dashboard/Events";
-import Leaderboard from "@dashboard/Leaderboard";
+
 import SearchModal from "@dashboard/Search";
 import GetQrScanQrBTN from "@dashboard/GetQRScan/button";
 import NavBar from "@dashboard/NavBar";
 import SideBar from "@dashboard/SideBar";
+
+import EventPage from "@dashboard/EventPage"
 
 import { createClient } from "@/utils/supabase/client";
 
@@ -23,7 +23,6 @@ export default function UserPage() {
   const [profileData, setProfileData] = useState({
     name: "",
     profilepic: "",
-    points: 0,
   });
 
   useEffect(() => {
@@ -34,7 +33,7 @@ export default function UserPage() {
 
       const { data, error } = await supabase
         .from("profiles")
-        .select("full_name, profile_img, points")
+        .select("full_name, profile_img")
         .eq("user_id", uid)
         .single();
 
@@ -79,13 +78,13 @@ export default function UserPage() {
         <NavBar profilepic={profileData.profilepic} setSidebarOpen={setSidebarOpen} setsearchOpen={setsearchOpen} />
 
         {/* WELCOME */}
-        <WelcomeData name={profileData.name} reward={profileData.points} ppI={12} />
+        
 
         {/* EVENTS */}
-        <Events uid={uid} />
+        <EventPage uid={uid} />
 
         {/* Leaderboard */}
-        <Leaderboard />
+        
       </div>
     </>
   );

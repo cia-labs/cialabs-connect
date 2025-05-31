@@ -1,7 +1,6 @@
 import React , {useEffect} from "react";
 import { useRouter } from "next/navigation";
 import { MyImage } from "@/components/Image/Image";
-import UserGreetText from "@/components/UserGreetText";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 
 export default function SideBar({ sidebarOpen, setSidebarOpen, uid,profilepic,name }) {
@@ -32,6 +31,8 @@ export default function SideBar({ sidebarOpen, setSidebarOpen, uid,profilepic,na
         <div className="mt-16">
           <div className=" w-24 h-24 rounded-full overflow-hidden relative">
             <MyImage
+            w={100}
+            h={100}
               alt="Profile Pic"
               src={profilepic}
             />
@@ -44,11 +45,11 @@ export default function SideBar({ sidebarOpen, setSidebarOpen, uid,profilepic,na
         <div className=" mt-12 w-full h-[1px] bg-white opacity-30"></div>
 
         <div className="mt-8 flex flex-col w-full px-4 font-medium">
-          <button onClick={handleClickVP} className=" text-[#a1a1a1] transition-all active:text-lg active:text-white active:text-lg   flex flex-row justify-between items-center">
+          <button onClick={handleClickVP} className=" text-[#a1a1a1] transition-all  active:text-white active:text-lg   flex flex-row justify-between items-center">
               <span>View Profile</span>
             <NavigateNextIcon />
           </button>
-          <div className="mt-4 flex flex-row justify-between items-center text-[#a1a1a1] transition-all active:text-lg active:text-lg active:text-white">
+          <div className="mt-4 flex flex-row justify-between items-center text-[#a1a1a1] transition-all  active:text-lg active:text-white">
             
               <span>Connentions</span>
             
