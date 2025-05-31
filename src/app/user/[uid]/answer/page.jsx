@@ -114,13 +114,13 @@ export default function UserPage() {
               h={300}
               alt="Profile Pic"
               src={
-                profile.profile_img ||
+                profile?.profile_img ||
                 "https://images.unsplash.com/photo-1748638904723-d833c6cf542b?q=80&w=2520&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
               }
             />
           </div>
-          <div className="text-2xl mt-6 font-semibold">{profile.full_name}</div>
-          <div className="mt-1 opacity-40">{profile.branch}</div>
+          <div className="text-2xl mt-6 font-semibold">{profile?.full_name}</div>
+          <div className="mt-1 opacity-40">{profile?.branch}</div>
           </div>
           <button className="w-full h-[6vh] flex flex-row justify-center items-center gap-2 bg-[var(--primary-color)] rounded-[7px] mt-8 text-center transition-all text-black active:text-lg">
             Answer Question
