@@ -1,4 +1,4 @@
-import React from "react";
+import React , {useEffect} from "react";
 import { useRouter } from "next/navigation";
 import { MyImage } from "@/components/Image/Image";
 import UserGreetText from "@/components/UserGreetText";
