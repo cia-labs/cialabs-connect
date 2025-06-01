@@ -57,9 +57,13 @@ export default function Events({ uid }) {
           </>
         ) : (
           events.map((event) => (
-            <Link
-              href={`/dashboard/user/${uid}/events/${event.id}`}
-              className="flex flex-col"
+            <button
+              
+              onClick={() => {
+                history.pushState(null, "", `/dashboard/user/${uid}/events/${event.id}`)
+                location.reload()
+              }}
+              className="flex flex-col text-start"
               key={event.id}
             >
               <div className="w-[120px] h-[150px] bg-white/10 rounded-[7px] overflow-hidden flex items-center justify-center">
@@ -69,7 +73,7 @@ export default function Events({ uid }) {
               <p className="mt-1 text-xs opacity-40 font-medium ">
                 {event.type}
               </p>
-            </Link>
+            </button>
           ))
         )}
       </div>
