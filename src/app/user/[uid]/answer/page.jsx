@@ -28,7 +28,7 @@ const ImageWithSkeleton = ({ src, alt, w, h }) => {
   const [imageLoading, setImageLoading] = useState(true);
   
   return (
-    <div className="w-52 h-52 rounded-full overflow-hidden relative">
+    <div className="w-40 h-40 rounded-full overflow-hidden relative">
       {imageLoading && (
         <div className="absolute inset-0 bg-gray-200/10 animate-pulse rounded-full z-10"></div>
       )}
@@ -184,8 +184,8 @@ export default function UserPage() {
           ) : (
             <div className="border-1 border-[#717171] w-full flex flex-col justify-center items-center rounded-[7px] py-8">
               <ImageWithSkeleton
-                w={300}
-                h={300}
+                w={200}
+                h={200}
                 alt="Profile Pic"
                 src={
                   profile?.profile_img ||
@@ -201,9 +201,9 @@ export default function UserPage() {
           {profileLoading ? (
             <ButtonSkeleton />
           ) : (
-            <button className="w-full h-[6vh] flex flex-row justify-center items-center gap-2 bg-[var(--primary-color)] rounded-[7px] mt-8 text-center transition-all text-black active:text-lg">
+            <a href="/comingsoon" className="w-full h-[6vh] flex flex-row justify-center items-center gap-2 bg-[var(--primary-color)] rounded-[7px] mt-8 text-center transition-all text-black active:text-lg">
               Answer Question
-            </button>
+            </a>
           )}
 
           {/* Go Back Button */}
@@ -214,12 +214,17 @@ export default function UserPage() {
               
                 href={`/dashboard/user/${user.id}`}
               
-              className="w-auto h-[6vh] underline text-[#717171] rounded-[7px] mt-3 text-center transition-all hover:text-white active:text-white active:text-[13px]"
+              className="w-auto h-[6vh] underline text-[#717171] rounded-[7px] mt-4 text-center transition-all hover:text-white active:text-white active:text-[13px]"
             >
               Go Back
             </Link>
           )}
         </div>
+                    <footer className="mt-auto py-4 bg-transparent">
+        <div className="text-center text-gray-400 text-sm">
+          © {new Date().getFullYear()} CIA Labs
+        </div>
+      </footer>
       </div>
     </>
   );

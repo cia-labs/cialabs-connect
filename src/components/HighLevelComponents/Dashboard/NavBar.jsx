@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import { MyImage } from "@/components/Image/Image";
+import Link from "next/link";
 
 
 export default function NavBar({ setsearchOpen, setSidebarOpen, profilepic }) {
@@ -32,9 +33,9 @@ export default function NavBar({ setsearchOpen, setSidebarOpen, profilepic }) {
         >
           <SearchOutlinedIcon sx={{ fontSize: 28 }} color="inherit" />
         </button>
-        <button className=" text-[#9F3734] active:text-[#ff625c] transition-all active:text-lg">
+        <Link href={'/comingsoon'} className=" text-[#9F3734] active:text-[#ff625c] transition-all active:text-lg">
           <BookmarkIcon sx={{ fontSize: 28 }} htmlColor="#A03734" />
-        </button>
+        </Link>
       </div>
     </div>
   );

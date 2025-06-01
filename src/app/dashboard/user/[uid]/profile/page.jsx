@@ -143,6 +143,11 @@ function Page() {
 
           <div className="mt-4 opacity-40">People's Response</div>
         </div>
+              <footer className="mt-auto py-4 bg-transparent">
+        <div className="text-center text-gray-400 text-sm">
+          © {new Date().getFullYear()} CIA Labs
+        </div>
+      </footer>
       </div>
     </>
   );

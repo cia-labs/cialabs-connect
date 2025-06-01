@@ -146,6 +146,11 @@ export default function page() {
         >
           Continue
         </button>
+                    <footer className="mt-auto py-4 bg-transparent">
+        <div className="text-center text-gray-400 text-sm">
+          © {new Date().getFullYear()} CIA Labs
+        </div>
+      </footer>
       </div>
     </>
   );

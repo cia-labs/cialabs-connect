@@ -54,8 +54,8 @@ export default function WelcomeData({ reward, ppI, name, loading = false }) {
 
       {/* SCORE&POINTS */}
       <div className="px-7 lg:px-[10vw]">
-        <div className="mt-[3vh] border-1 flex flex-row border-[#363535] w-full h-[17vh] rounded-[15px]">
-          <div className="w-[50%] h-full flex flex-col pl-5 pt-3  border-r-1 border-[#363535]">
+        <div className="mt-[3vh] border-1 flex flex-row border-[#363535] w-full  h-[17vh] rounded-[15px]">
+          <div className="w-[50%] h-full flex flex-col pl-5 pt-3  border-r-1 border-[#363535] justify-center">
             <div className="flex flex-row gap-1  items-center">
               <StarIcon sx={{ fontSize: 15 }} color="inherit" opacity={0.4} />
               <p className=" text-[0.75rem] relative top-[0.2px] opacity-40 font-semibold">
@@ -66,7 +66,7 @@ export default function WelcomeData({ reward, ppI, name, loading = false }) {
               {reward}
             </div>
           </div>
-          <div className="w-[50%] h-full flex flex-col pl-5 pt-3 ">
+          <div className="w-[50%] h-full flex flex-col pl-5 pt-3  justify-center">
             <div className="flex flex-row gap-2  items-center">
               <GroupsIcon sx={{ fontSize: 15 }} color="inherit" opacity={0.4} />
               <p className=" text-[0.75rem] relative top-[0.2px] opacity-40 font-semibold">

@@ -58,38 +58,46 @@ export default function UserPage() {
 
   console.log("212",profileData.profilepic)
   return (
-    <>
-      {/* Sidebar */}
-      <SideBar
-        profilepic={profileData.profilepic}
-        name={profileData.name}
-        sidebarOpen={sidebarOpen}
-        setSidebarOpen={setSidebarOpen}
-        uid={uid}
-      />
+  <>
+    {/* Sidebar */}
+    <SideBar
+      profilepic={profileData.profilepic}
+      name={profileData.name}
+      sidebarOpen={sidebarOpen}
+      setSidebarOpen={setSidebarOpen}
+      uid={uid}
+    />
 
-      {/* Search */}
-      <SearchModal uid={uid} setSearchOpen={setsearchOpen} searchOpen={searchOpen} />
+    {/* Search */}
+    <SearchModal uid={uid} setSearchOpen={setsearchOpen} searchOpen={searchOpen} />
 
-      {/* Top Gradient */}
-      <Gradient />
+    {/* Top Gradient */}
+    <Gradient />
 
-      {/* Action Button */}
-      <GetQrScanQrBTN uid={uid} />
+    {/* Action Button */}
+    <GetQrScanQrBTN uid={uid} />
 
-      <div className="w-screen h-screen text-white flex flex-col ">
-        {/* NAV */}
-        <NavBar profilepic={profileData.profilepic} setSidebarOpen={setSidebarOpen} setsearchOpen={setsearchOpen} />
+    <div className="w-screen h-screen text-white flex flex-col">
+      {/* NAV */}
+      <NavBar profilepic={profileData.profilepic} setSidebarOpen={setSidebarOpen} setsearchOpen={setsearchOpen} />
 
-        {/* WELCOME */}
-        <WelcomeData loading={loadingWelcome} name={profileData.name} reward={profileData.points} ppI={12} />
+      {/* WELCOME */}
+      <WelcomeData loading={loadingWelcome} name={profileData.name} reward={profileData.points} ppI={12} />
 
-        {/* EVENTS */}
-        <Events uid={uid} />
+      {/* EVENTS */}
+      <Events uid={uid} />
 
-        {/* Leaderboard */}
-        <Leaderboard />
-      </div>
-    </>
-  );
+      {/* Leaderboard */}
+      <Leaderboard />
+
+      {/* Footer */}
+      <footer className="mt-auto py-4 bg-transparent">
+        <div className="text-center text-gray-400 text-sm">
+          © {new Date().getFullYear()} CIA Labs
+        </div>
+      </footer>
+    </div>
+  </>
+);
+
 }

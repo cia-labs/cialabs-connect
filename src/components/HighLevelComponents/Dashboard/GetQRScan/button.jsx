@@ -18,9 +18,9 @@ export default function GetQrScanQrBTN({uid}) {
       >
         Get QR <QrCodeRoundedIcon />
       </Link>
-      <button  className="w-[50%] h-full text-black/70  transition-all active:text-lg active:text-black flex flex-row justify-center items-center gap-2 bg-[#C2F970] rounded-r-[30px] ">
+      <Link href={'/comingsoon'}  className="w-[50%] h-full text-black/70  transition-all active:text-lg active:text-black flex flex-row justify-center items-center gap-2 bg-[#C2F970] rounded-r-[30px] ">
         Scan <CropFreeRoundedIcon />
-      </button>
+      </Link>
     </div>
   );
 }

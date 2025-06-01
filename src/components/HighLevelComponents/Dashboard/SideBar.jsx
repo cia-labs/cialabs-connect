@@ -75,10 +75,10 @@ export default function SideBar({
             <span>View Profile</span>
             <NavigateNextIcon />
           </Link>
-          <div className="mt-4 flex flex-row justify-between items-center text-[#a1a1a1]   transition-all  active:text-sm   active:text-white py-2 px-2 rounded-lg hover:bg-white/5">
+          <Link href={'/comingsoon'} className="mt-4 flex flex-row justify-between items-center text-[#a1a1a1]   transition-all  active:text-sm   active:text-white py-2 px-2 rounded-lg hover:bg-white/5">
             <span>Connections</span>
             <NavigateNextIcon />
-          </div>
+          </Link>
         </div>
       </div>
     </>
