@@ -5,7 +5,7 @@ import { MyImage } from "@/components/Image/Image";
 import Link from "next/link";
 
 
-export default function NavBar({ setsearchOpen, setSidebarOpen, profilepic }) {
+export default function NavBar({ setsearchOpen, setSidebarOpen, profilepic, bookmark, uid }) {
   const [imgLoaded, setImgLoaded] = useState(false);
 
   return (
@@ -33,10 +33,11 @@ export default function NavBar({ setsearchOpen, setSidebarOpen, profilepic }) {
         >
           <SearchOutlinedIcon sx={{ fontSize: 28 }} color="inherit" />
         </button>
-        <a href={'/comingsoon'} className=" text-[#9F3734] active:text-[#ff625c] transition-all active:text-lg">
-          <BookmarkIcon sx={{ fontSize: 28 }} htmlColor="#A03734" />
+        <a href={`/dashboard/user/${uid}/bookmarks`} className=" text-[#9F3734] active:text-[#ff625c] transition-all active:text-lg">
+          <BookmarkIcon sx={{ fontSize: 28 }} htmlColor={`${!bookmark ? "A03734" : "#ff625c" }`} />
         </a>
       </div>
     </div>
   );
 }
+// A03734

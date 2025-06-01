@@ -60,7 +60,6 @@ const NavBarSkeleton = () => (
 );
 
 export default function UserPage() {
-  const router = useRouter();
   const { uid } = useParams();
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -132,8 +131,18 @@ export default function UserPage() {
   // Show login prompt if user is not authenticated
   if (userLoading) {
     return (
-      <div className="text-white text-center w-screen h-screen flex flex-row justify-center items-center">
+      <div className="text-white text-center w-screen h-screen flex flex-col gap-5 justify-center items-center">
+        <Gradient />
         <div className="w-64 h-8 bg-gray-200/20 animate-pulse rounded-md"></div>
+        <div className="w-72 h-8 bg-gray-100/10 animate-pulse rounded-md"></div>
+        <div className="w-64 h-8 bg-gray-100/40 animate-pulse rounded-md"></div>
+        <div className="w-80 h-8 bg-gray-200/30 animate-pulse rounded-md"></div>
+        <div className=" flex flex-row gap-5">
+                    <div className="w-22 h-8 bg-gray-100/40 animate-pulse rounded-md"></div>
+        <div className="w-32 h-8 bg-gray-200/30 animate-pulse rounded-md"></div>
+        <div className="w-8 h-8 bg-gray-200/30 animate-pulse rounded-full"></div>
+        
+        </div>
       </div>
     );
   }
@@ -160,6 +169,7 @@ export default function UserPage() {
         sidebarOpen={sidebarOpen}
         setSidebarOpen={setSidebarOpen}
         uid={user.id}
+        dashboard={true}
       />
       {/* Search */}
       <SearchModal uid={user.id} setSearchOpen={setsearchOpen} searchOpen={searchOpen} />
@@ -171,6 +181,7 @@ export default function UserPage() {
 
        
           <NavBar
+          uid={uid}
             profilepic={profileData.profilepic}
             setSidebarOpen={setSidebarOpen}
             setsearchOpen={setsearchOpen}
@@ -201,7 +212,7 @@ export default function UserPage() {
           {profileLoading ? (
             <ButtonSkeleton />
           ) : (
-            <a href="/comingsoon" className="w-full h-[6vh] flex flex-row justify-center items-center gap-2 bg-[var(--primary-color)] rounded-[7px] mt-8 text-center transition-all text-black active:text-lg">
+            <a href={`/user/${uid}/answer/1`} className="w-full h-[6vh] flex flex-row justify-center items-center gap-2 bg-[var(--primary-color)] rounded-[7px] mt-8 text-center transition-all text-black active:text-lg">
               Answer Question
             </a>
           )}

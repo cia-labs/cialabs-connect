@@ -142,7 +142,7 @@ const SearchModal = ({ searchOpen, setSearchOpen, uid }) => {
             {results.profiles.length > 0 && (
               <div>
                 <h2 className="text-xl opacity-40 font-bold mb-4">Users</h2>
-                <ul className="space-y-6">
+                <ul className="space-y-3">
                   {results.profiles.map((user) => (
                     <li key={user.user_id}>
                       <a
@@ -159,7 +159,7 @@ const SearchModal = ({ searchOpen, setSearchOpen, uid }) => {
                           />
                         </div>
                         <div>
-                          <div>{user.full_name}</div>
+                          <div className=" font-semibold">{user.full_name}</div>
                           <div className="text-sm opacity-50">{user.branch}</div>
                         </div>
                       </a>
@@ -173,11 +173,11 @@ const SearchModal = ({ searchOpen, setSearchOpen, uid }) => {
                 <h2 className="text-xl font-bold mb-4 opacity-40">
                   Exhibitions
                 </h2>
-                <ul className="space-y-4">
+                <ul className="space-y-6">
                   {results.exhibitions.map((ex) => (
                     <li
                       key={ex.id}
-                      className="cursor-pointer hover:bg-white/5 rounded-lg p-2 transition-all duration-200 active:scale-95 active:bg-gradient-to-r active:from-white/10 active:to-white/5 transform active:shadow-lg"
+                      className="cursor-pointer hover:bg-white/5 p-2 rounded-lg  transition-all duration-200 active:scale-95 active:bg-gradient-to-r active:from-white/10 active:to-white/5 transform active:shadow-lg"
                     >
                       <a href={`/dashboard/user/${uid}/events/${ex.id}`}>
                       <div className="font-semibold">{ex.title}</div>

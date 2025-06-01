@@ -70,14 +70,19 @@ const MultiSelectComboBox = ({
               }[color] || "border-gray-400";
 
     const handleSelect = (option) => {
-        if (!selected.includes(option)) {
-            const newSelected = [...selected, option];
-            setSelected(newSelected);
-            onSelect && onSelect(newSelected);
-        }
+    if (selected.length >= 4) {
         setInput("");
         setIsOpen(false);
-    };
+        return;
+    }
+    if (!selected.includes(option)) {
+        const newSelected = [...selected, option];
+        setSelected(newSelected);
+        onSelect && onSelect(newSelected);
+    }
+    setInput("");
+    setIsOpen(false);
+};
 
     const handleRemove = (option) => {
         const newSelected = selected.filter((item) => item !== option);
@@ -116,23 +121,27 @@ const MultiSelectComboBox = ({
                 />
                
             </div>
-            {isOpen && (
-                <ul className="absolute transition-all z-10 mt-2 w-full p-3 border bg-[var(--bg-color)] border-gray-300 rounded-[7px] shadow-md max-h-48 overflow-y-auto">
-                    {options
-                        .filter(
-                            (option) =>
-                                option.toLowerCase().includes(input.toLowerCase()) &&
-                                !selected.includes(option)
-                        )
-                        .map((option, index) => (
-                            <li
-                                key={index}
-                                onClick={() => handleSelect(option)}
-                                className="p-2 transition-all hover:bg-blue-100 cursor-pointer"
-                            >
-                                {option}
-                            </li>
-                        ))}
+{isOpen && (
+    <ul className="absolute transition-all z-10 mt-2 w-full p-3 border bg-[var(--bg-color)] border-gray-300 rounded-[7px] shadow-md max-h-48 overflow-y-auto">
+        {selected.length >= 4 ? (
+            <li className="p-2 text-gray-500 cursor-not-allowed">Maximum 4 options selected</li>
+        ) : (
+            options
+                .filter(
+                    (option) =>
+                        option.toLowerCase().includes(input.toLowerCase()) &&
+                        !selected.includes(option)
+                )
+                .map((option, index) => (
+                    <li
+                        key={index}
+                        onClick={() => handleSelect(option)}
+                        className="p-2 transition-all hover:bg-blue-100 cursor-pointer"
+                    >
+                        {option}
+                    </li>
+                ))
+        )}
                 </ul>
             )}
         </div>
@@ -140,3 +149,7 @@ const MultiSelectComboBox = ({
 };
 
 export { ComboBox, MultiSelectComboBox };
+
+
+
+

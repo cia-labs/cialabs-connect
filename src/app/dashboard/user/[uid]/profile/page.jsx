@@ -128,7 +128,7 @@ function Page() {
 
           {/* Static Top Hobbies */}
           <div className="mt-7 text-[2rem] text-center">
-            Your Top Hobbies Was{" "}
+            Your Top Intersets were{" "}
             <span className="font-bold bg-gradient-to-r from-[#FF7878] to-[#B3A2FF] bg-clip-text text-transparent">
               Cycling,
             </span>{" "}

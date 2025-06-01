@@ -25,12 +25,13 @@ export default function Leaderboard() {
       try {
         const res = await fetch('/api/data/leaderboard');
         const data = await res.json();
-        setRanks(data);
+        setRanks(Array.isArray(data) ? data : []);
       } finally {
         setLoading(false);
       }
     };
     fetchLeaderboard();
+ 
   }, []);
 
   return (

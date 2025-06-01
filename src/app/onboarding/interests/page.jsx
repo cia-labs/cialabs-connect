@@ -101,6 +101,7 @@ export default function page() {
 
     if (insertError) {
       console.error("Failed to insert user interests:", insertError);
+      router.push(`/dashboard/user/${uid}`)
       return;
     }
 

@@ -11,12 +11,12 @@ export default function SideBar({
   uid,
   profilepic,
   name,
+  dashboard,
 }) {
   const pathname = usePathname();
   const [loading, setLoading] = useState(false);
   const [progress, setProgress] = useState(0);
   const [targetPath, setTargetPath] = useState("");
-
 
   // Simulate progress
   useEffect(() => {
@@ -26,8 +26,6 @@ export default function SideBar({
       setTargetPath("");
     }
   }, [pathname, loading, targetPath]);
-
-
 
   return (
     <>
@@ -69,16 +67,30 @@ export default function SideBar({
         <div className="mt-4 flex flex-col w-full px-4 font-medium">
           <a
             href={`/dashboard/user/${uid}/profile`}
-            
             className="text-[#a1a1a1] transition-all active:text-white active:text-sm flex flex-row justify-between items-center py-2 px-2 rounded-lg hover:bg-white/5"
           >
             <span>View Profile</span>
             <NavigateNextIcon />
           </a>
-          <a href={'/comingsoon'} className="mt-1 flex flex-row justify-between items-center text-[#a1a1a1]   transition-all  active:text-sm   active:text-white py-2 px-2 rounded-lg hover:bg-white/5">
+          <a
+            href={`/dashboard/user/${uid}/connections`}
+            className="mt-1 flex flex-row justify-between items-center text-[#a1a1a1]   transition-all  active:text-sm   active:text-white py-2 px-2 rounded-lg hover:bg-white/5"
+          >
             <span>Connections</span>
             <NavigateNextIcon />
           </a>
+
+          {dashboard ? (
+            <a
+              href={`/dashboard/user/${uid}`}
+              className="mt-1 flex flex-row justify-between items-center text-[#a1a1a1]   transition-all  active:text-sm   active:text-white py-2 px-2 rounded-lg hover:bg-white/5"
+            >
+              <span>Dashboard</span>
+              <NavigateNextIcon />
+            </a>
+          ) : (
+            <></>
+          )}
         </div>
       </div>
     </>

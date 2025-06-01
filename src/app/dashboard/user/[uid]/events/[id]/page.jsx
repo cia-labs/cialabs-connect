@@ -162,6 +162,7 @@ export default function UserPage() {
         sidebarOpen={sidebarOpen}
         setSidebarOpen={setSidebarOpen}
         uid={uid}
+        dashboard={true}
       />
 
       {/* Search */}
@@ -178,6 +179,7 @@ export default function UserPage() {
       <div className="w-screen h-screen text-white flex flex-col">
         {/* NAV */}
         <NavBar
+        uid={uid}
           profilepic={profileData.profilepic}
           setSidebarOpen={setSidebarOpen}
           setsearchOpen={setsearchOpen}

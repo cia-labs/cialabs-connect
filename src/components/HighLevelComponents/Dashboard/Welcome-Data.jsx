@@ -6,7 +6,7 @@ import GroupsIcon from "@mui/icons-material/Groups";
 function SkeletonBox( ) {
   return (
     <>
-      <div className="mt-[5vh] h-[2rem] animate-pulse text-[1.5rem] px-7 lg:px-[10vw] bg-gray-100/20  rounded w-4/6">
+      <div className="mt-[5vh] h-[2rem] mx-7 animate-pulse text-[1.5rem] px-7 lg:px-[10vw] bg-gray-100/20  rounded w-4/6">
 
       </div>
 

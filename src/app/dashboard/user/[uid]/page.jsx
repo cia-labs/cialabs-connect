@@ -77,9 +77,9 @@ export default function UserPage() {
     {/* Action Button */}
     <GetQrScanQrBTN uid={uid} />
 
-    <div className="w-screen h-screen text-white flex flex-col">
+    <div className="w-screen h-screen text-white flex flex-col mt-6">
       {/* NAV */}
-      <NavBar profilepic={profileData.profilepic} setSidebarOpen={setSidebarOpen} setsearchOpen={setsearchOpen} />
+      <NavBar uid={uid} profilepic={profileData.profilepic} setSidebarOpen={setSidebarOpen} setsearchOpen={setsearchOpen} />
 
       {/* WELCOME */}
       <WelcomeData loading={loadingWelcome} name={profileData.name} reward={profileData.points} ppI={12} />
