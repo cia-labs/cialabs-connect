@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import { MyImage } from "@/components/Image/Image";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 function SkeletonCard() {
   return (
@@ -56,10 +57,8 @@ export default function Events({ uid }) {
           </>
         ) : (
           events.map((event) => (
-            <div
-              onClick={() => {
-                router.push(`/dashboard/user/${uid}/events/${event.id}`);
-              }}
+            <Link
+              href={`/dashboard/user/${uid}/events/${event.id}`}
               className="flex flex-col"
               key={event.id}
             >
@@ -70,7 +69,7 @@ export default function Events({ uid }) {
               <p className="mt-1 text-xs opacity-40 font-medium ">
                 {event.type}
               </p>
-            </div>
+            </Link>
           ))
         )}
       </div>

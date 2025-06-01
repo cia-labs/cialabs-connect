@@ -3,16 +3,20 @@ import { useRouter, usePathname } from "next/navigation";
 import { MyImage } from "@/components/Image/Image";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 
-export default function SideBar({ sidebarOpen, setSidebarOpen, uid, profilepic, name }) {
-  const router = useRouter();
+import Link from "next/link";
+
+export default function SideBar({
+  sidebarOpen,
+  setSidebarOpen,
+  uid,
+  profilepic,
+  name,
+}) {
   const pathname = usePathname();
   const [loading, setLoading] = useState(false);
   const [progress, setProgress] = useState(0);
   const [targetPath, setTargetPath] = useState("");
 
-  useEffect(() => {
-    router.prefetch(`/dashboard/user/${uid}/profile`);
-  }, [uid]);
 
   // Simulate progress
   useEffect(() => {
@@ -23,30 +27,19 @@ export default function SideBar({ sidebarOpen, setSidebarOpen, uid, profilepic, 
     }
   }, [pathname, loading, targetPath]);
 
-  const handleClickVP = () => {
-    const path = `/dashboard/user/${uid}/profile`;
-    setTargetPath(path);
-    setLoading(true);
-    setProgress(0); // Start from 0
-    
-    // Animate progress immediately
-    setTimeout(() => setProgress(40), 10);
-    router.push(path);
-  };
+
 
   return (
     <>
       {/* Progress Bar */}
       <div
         className={`fixed top-0 left-0 h-1 z-[9999] rounded-r-full transition-all duration-300 ease-out ${
-          loading 
-            ? 'opacity-100 translate-y-0' 
-            : 'opacity-0 -translate-y-2'
+          loading ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-2"
         }`}
         style={{
           width: `${progress}%`,
-          background: 'linear-gradient(90deg, #6366f1, #14b8a6)',
-          boxShadow: loading ? '0 0 10px rgba(99, 102, 241, 0.5)' : 'none',
+          background: "linear-gradient(90deg, #6366f1, #14b8a6)",
+          boxShadow: loading ? "0 0 10px rgba(99, 102, 241, 0.5)" : "none",
         }}
       />
 
@@ -74,13 +67,14 @@ export default function SideBar({ sidebarOpen, setSidebarOpen, uid, profilepic, 
         <div className="mt-12 w-full h-[1px] bg-white opacity-30"></div>
 
         <div className="mt-8 flex flex-col w-full px-4 font-medium">
-          <button
-            onClick={handleClickVP}
+          <Link
+            href={`/dashboard/user/${uid}/profile`}
+            
             className="text-[#a1a1a1] transition-all active:text-white active:text-sm flex flex-row justify-between items-center py-2 px-2 rounded-lg hover:bg-white/5"
           >
             <span>View Profile</span>
             <NavigateNextIcon />
-          </button>
+          </Link>
           <div className="mt-4 flex flex-row justify-between items-center text-[#a1a1a1]   transition-all  active:text-sm   active:text-white py-2 px-2 rounded-lg hover:bg-white/5">
             <span>Connections</span>
             <NavigateNextIcon />

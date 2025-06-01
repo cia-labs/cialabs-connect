@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 function SkeletonCard() {
   return (
@@ -58,10 +59,10 @@ export default function EventPage({ uid }) {
             <h2 className="text-[1rem] font-bold opacity-40 mb-6">{type}</h2>
             <div className="z-30 overflow-x-scroll flex flex-row gap-5">
               {eventsOfType.map((event) => (
-                <div
-                  onClick={() => {
-                    router.push(`/dashboard/user/${uid}/events/${event.id}`);
-                  }}
+                <Link
+                 
+                   href={`/dashboard/user/${uid}/events/${event.id}`}
+                
                   className="flex flex-col"
                   key={event.id}
                 >
@@ -75,7 +76,7 @@ export default function EventPage({ uid }) {
                     />
                   </div>
                   <h1 className="mt-2 text-lg font-medium">{event.title}</h1>
-                </div>
+                </Link>
               ))}
             </div>
           </section>

@@ -14,6 +14,7 @@ export default function page() {
 const router = useRouter();
     
   const [branch, setb] = useState(null);
+  const [btnText , setBtnText] = useState("Continue")
   const [placeholder, setp] = useState("Select An Option");
   const [color, setc] = useState("gray-400");
   const handclick = () => {
@@ -22,6 +23,7 @@ const router = useRouter();
         setp("Please Fill this Feild")
     } else{
     sessionStorage.setItem("branch" , branch);
+    setBtnText("Loading...")
     router.push("/onboarding/interests")
     }
 
@@ -50,7 +52,7 @@ const router = useRouter();
         </div>
 
         <button onClick={handclick} className="w-full h-[6vh] bg-[var(--primary-color)] rounded-[7px] mt-6 text-center transition-all text-black active:text-lg">
-            Continue
+            {btnText}
         </button>
       </div>
     </>

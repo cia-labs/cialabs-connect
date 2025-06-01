@@ -3,6 +3,7 @@ import React, { useState, useCallback } from "react";
 import KeyboardBackspaceRoundedIcon from "@mui/icons-material/KeyboardBackspaceRounded";
 import { MyImage } from "@/components/Image/Image";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const SearchModal = ({ searchOpen, setSearchOpen, uid }) => {
   const router = useRouter();
@@ -143,33 +144,30 @@ const SearchModal = ({ searchOpen, setSearchOpen, uid }) => {
                 <h2 className="text-xl opacity-40 font-bold mb-4">Users</h2>
                 <ul className="space-y-6">
                   {results.profiles.map((user) => (
-                    <li
-                      onClick={() =>
-                        router.push(`/user/${user.user_id}/answer`)
-                      }
-                      key={user.user_id}
-                      className=" flex flex-row gap-4 cursor-pointer items-center hover:bg-white/5 rounded-lg p-2 transition-all duration-200 active:scale-95 active:bg-gradient-to-r active:from-white/10 active:to-white/5 transform active:shadow-lg"
-                    >
-                      <div className="overflow-hidden rounded-full">
-                        <MyImage
-                          src={user.profile_img}
-                          alt={user.full_name}
-                          h={40}
-                          w={40}
-                          className="w-10 h-10 rounded-full object-cover"
-                        />
-                      </div>
-                      <div>
-                        <div>{user.full_name}</div>
-                        <div className="text-sm opacity-50">{user.branch}</div>
-                      </div>
+                    <li key={user.user_id}>
+                      <Link
+                        href={`/user/${user.user_id}/answer`}
+                        className="flex flex-row gap-4 cursor-pointer items-center hover:bg-white/5 rounded-lg p-2 transition-all duration-200 active:scale-95 active:bg-gradient-to-r active:from-white/10 active:to-white/5 transform active:shadow-lg"
+                      >
+                        <div className="overflow-hidden rounded-full">
+                          <MyImage
+                            src={user.profile_img}
+                            alt={user.full_name}
+                            h={40}
+                            w={40}
+                            className="w-10 h-10 rounded-full object-cover"
+                          />
+                        </div>
+                        <div>
+                          <div>{user.full_name}</div>
+                          <div className="text-sm opacity-50">{user.branch}</div>
+                        </div>
+                      </Link>
                     </li>
                   ))}
                 </ul>
               </div>
             )}
-
-            {/* Exhibitions */}
             {results.exhibitions.length > 0 && (
               <div>
                 <h2 className="text-xl font-bold mb-4 opacity-40">
@@ -178,14 +176,12 @@ const SearchModal = ({ searchOpen, setSearchOpen, uid }) => {
                 <ul className="space-y-4">
                   {results.exhibitions.map((ex) => (
                     <li
-                      onClick={() =>
-                        router.push(`/dashboard/user/${uid}/events/${ex.id}`)
-                      }
                       key={ex.id}
                       className="cursor-pointer hover:bg-white/5 rounded-lg p-2 transition-all duration-200 active:scale-95 active:bg-gradient-to-r active:from-white/10 active:to-white/5 transform active:shadow-lg"
                     >
+                      <Link href={`/dashboard/user/${uid}/events/${ex.id}`}>
                       <div className="font-semibold">{ex.title}</div>
-                      <div className="text-sm opacity-50">{ex.type}</div>
+                      <div className="text-sm opacity-50">{ex.type}</div> </Link>
                     </li>
                   ))}
                 </ul>

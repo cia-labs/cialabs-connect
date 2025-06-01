@@ -8,6 +8,7 @@ import SearchModal from "@dashboard/Search";
 import NavBar from "@dashboard/NavBar";
 import SideBar from "@dashboard/SideBar";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 // Skeleton Components
 const ProfileSkeleton = () => (
@@ -209,14 +210,14 @@ export default function UserPage() {
           {profileLoading ? (
             <BackButtonSkeleton />
           ) : (
-            <button
-              onClick={() => {
-                router.push(`/dashboard/user/${user.id}`);
-              }}
+            <Link
+              
+                href={`/dashboard/user/${user.id}`}
+              
               className="w-auto h-[6vh] underline text-[#717171] rounded-[7px] mt-3 text-center transition-all hover:text-white active:text-white active:text-[13px]"
             >
               Go Back
-            </button>
+            </Link>
           )}
         </div>
       </div>

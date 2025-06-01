@@ -3,7 +3,7 @@
 import React, { use, useState } from "react";
 import Gradient from "@/components/HighLevelComponents/TopGradient/Gradient";
 import Image from "next/image";
-import {MultiSelectComboBox} from "@/components/ui/ComboBox";
+import { MultiSelectComboBox } from "@/components/ui/ComboBox";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/utils/supabase/client";
 const interests = [
@@ -35,75 +35,89 @@ export default function page() {
   const [branch, setb] = useState(null);
   const [placeholder, setp] = useState("Select An Option");
   const [color, setc] = useState("gray-400");
-
+  const [loading , setloading] = useState(false)
   //sessionStorage.getItem("branch")
 
-const handclick = async () => {
-  if (!branch || branch.length === 0) {
-    setc("red-500");
-    setp("Please select at least one interest");
-    return;
-  }
+  const handclick = async () => {
+    
+    if (!branch || branch.length === 0) {
+      setc("red-500");
+      setp("Please select at least one interest");
+      return;
+    }
 
-  const supabase = createClient();
-  const { data: { user }, error: authError } = await supabase.auth.getUser();
+    setloading(true)
 
-  if (authError || !user) {
-    alert("User not logged in");
-    return;
-  }
+    const supabase = createClient();
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser();
 
-  const uid = user.id;
-  const branchFromStorage = sessionStorage.getItem("branch");
+    if (authError || !user) {
+      alert("User not logged in");
+      return;
+    }
 
-  if (!branchFromStorage) {
-    alert("Branch not selected. Please go back and select branch.");
-    return;
-  }
+    const uid = user.id;
+    const branchFromStorage = sessionStorage.getItem("branch");
 
-  // 1. Update profile with branch
-  const { error: profileError } = await supabase
-    .from("profiles")
-    .update({ branch: branchFromStorage })
-    .eq("user_id", uid);
+    if (!branchFromStorage) {
+      alert("Branch not selected. Please go back and select branch.");
+      return;
+    }
 
-  if (profileError) {
-    console.error("Failed to update branch:", profileError);
-    return;
-  }
+    // 1. Update profile with branch
+    const { error: profileError } = await supabase
+      .from("profiles")
+      .update({ branch: branchFromStorage })
+      .eq("user_id", uid);
 
-  // 2. Get interest IDs from interests table
-  const { data: interestRows, error: interestLookupError } = await supabase
-    .from("interests")
-    .select("id, name")
-    .in("name", branch); // branch is actually the array of selected interests
+    if (profileError) {
+      console.error("Failed to update branch:", profileError);
+      return;
+    }
 
-  if (interestLookupError || !interestRows) {
-    console.error("Failed to fetch interest IDs:", interestLookupError);
-    return;
-  }
+    // 2. Get interest IDs from interests table
+    const { data: interestRows, error: interestLookupError } = await supabase
+      .from("interests")
+      .select("id, name")
+      .in("name", branch); // branch is actually the array of selected interests
 
-  // 3. Insert into user_interests
-  const interestInserts = interestRows.map((interest) => ({
-    user_id: uid,
-    interest_id: interest.id,
-  }));
+    if (interestLookupError || !interestRows) {
+      console.error("Failed to fetch interest IDs:", interestLookupError);
+      return;
+    }
 
-  const { error: insertError } = await supabase
-    .from("user_interests")
-    .insert(interestInserts);
+    // 3. Insert into user_interests
+    const interestInserts = interestRows.map((interest) => ({
+      user_id: uid,
+      interest_id: interest.id,
+    }));
 
-  if (insertError) {
-    console.error("Failed to insert user interests:", insertError);
-    return;
-  }
+    const { error: insertError } = await supabase
+      .from("user_interests")
+      .insert(interestInserts);
 
-  // ✅ Success
-  router.push(`/dashboard/user/${uid}`);
-};
+    if (insertError) {
+      console.error("Failed to insert user interests:", insertError);
+      return;
+    }
+
+    // ✅ Success
+    router.push(`/dashboard/user/${uid}`);
+    setloading(false)
+  };
   return (
     <>
       <Gradient />
+
+      {
+        loading ?       <div className="w-screen h-screen bg-black/30 fixed top-0 backdrop-blur-lg z-50 flex flex-col justify-center items-center text-center font-semibold  text-lg">
+        <div className=" text-white/40">Making Sure We got everything right 😊</div>
+        <div className="w-10 h-10 mt-8 border-4 rounded-full text-white border-t-black opacity-40 animate-spin"></div>
+      </div> : <></>
+      }
 
       <div className=" w-screen h-screen flex flex-col items-center  text-white px-7">
         <div className=" flex flex-row items-center justify-center mt-20">
