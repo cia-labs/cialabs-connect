@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import { MyImage } from "@/components/Image/Image";
 import KeyboardBackspaceRoundedIcon from "@mui/icons-material/KeyboardBackspaceRounded";
 import { useRouter, useParams } from "next/navigation";
@@ -10,6 +10,9 @@ function Page() {
   const router = useRouter();
   const { uid } = useParams();
   const [user, setUser] = useState(null);
+  const [textloaded, settextloaded] = useState(false);
+  const [imgLoaded, setImgLoaded] = useState(false);
+
   const supabase = createClient();
   useEffect(() => {
     const fetchUser = async () => {
@@ -17,7 +20,6 @@ function Page() {
         data: { user },
       } = await supabase.auth.getUser();
       setUser(user);
-      
     };
     fetchUser();
   }, []);
@@ -50,6 +52,8 @@ function Page() {
         profilepic: data.profile_img ?? "",
         branch: data.branch ?? "",
       });
+
+      settextloaded(true)
     }
 
     fetchProfile();
@@ -74,20 +78,50 @@ function Page() {
           </button>
 
           <div className="flex flex-row gap-5 underline opacity-40 ">
-            <button>Delete Account</button>
+            <a href="/logout">Log Out</a>
           </div>
         </div>
 
         {/* Profile Section */}
         <div className="mt-12 w-full h-fit flex flex-col justify-center items-center">
           <div className="w-52 h-52 rounded-full overflow-hidden relative">
-            <MyImage w={300} h={300} alt="Profile Pic" src={profile.profilepic} />
+            {!imgLoaded && (
+              <div className="w-full h-full rounded-full overflow-hidden relative bg-gray-200/20 animate-ping"></div>
+            )}
+            <span style={{ display: imgLoaded ? "block" : "none" }}>
+              <MyImage
+                w={300}
+                h={300}
+                alt="Profile Pic"
+                src={profile.profilepic}
+                onLoad={() => setImgLoaded(true)}
+              />
+            </span>
+
+            <MyImage
+              w={300}
+              h={300}
+              alt="Profile Pic"
+              src={profile.profilepic}
+            />
           </div>
 
-          <div className="text-2xl mt-6 font-semibold">{profile.name}</div>
-          <div className="mt-1 opacity-40">
-            {user?.email}| {profile.branch}
-          </div>
+          {!textloaded ? (
+            <>
+              <div className="text-2xl mt-6 font-semibold w-3/5 h-6 rounded-2xl bg-gray-200/20 animate-pluse"></div>
+              <div className="mt-5 w-4/5 h-2 rounded-2xl bg-gray-200/20 animate-pulse">
+                
+              </div>
+            </>
+          ) : (
+            <>
+              {" "}
+              <div className="text-2xl mt-6 font-semibold">{profile.name}</div>
+              <div className="mt-1 opacity-40">
+                {user?.email} | {profile.branch}
+              </div>
+            </>
+          )}
 
           <div className="mt-4 underline text-sm">Edit</div>
           <div className="mt-8 w-full h-[1px] bg-white opacity-30 "></div>

@@ -1,6 +1,6 @@
 'use client';
 
-import Image from 'next/image';
+import Image, { ImageProps } from 'next/image';
 
 type MyImageProps = {
   alt: string;
@@ -8,9 +8,11 @@ type MyImageProps = {
   w: number;
   h: number;
   blurDataURL?: string;
+  fill? : boolean
+  onLoad?: ImageProps['onLoad'];
 };
 
-export function MyImage({ alt, src, w,h }: MyImageProps) {
+export function MyImage({ alt, src, w, h, onLoad, fill }: MyImageProps) {
   if (!src || src === '') {
     return null;
   }
@@ -22,9 +24,10 @@ export function MyImage({ alt, src, w,h }: MyImageProps) {
         width={w}
         height={h}
         alt={alt}
-        
+        fill={fill}
         priority
         style={{ objectFit: 'cover' }}
+        onLoad={onLoad}
       />
     </div>
   );

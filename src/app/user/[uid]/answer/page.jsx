@@ -9,12 +9,63 @@ import NavBar from "@dashboard/NavBar";
 import SideBar from "@dashboard/SideBar";
 import { useRouter } from "next/navigation";
 
+// Skeleton Components
+const ProfileSkeleton = () => (
+  <div className="border-1 border-[#717171] w-full flex flex-col justify-center items-center rounded-[7px] py-8">
+    {/* Profile Image Skeleton */}
+    <div className="w-52 h-52 rounded-full bg-gray-200/10 animate-pulse"></div>
+    
+    {/* Name Skeleton */}
+    <div className="mt-6 w-48 h-8 bg-gray-200/20 animate-pulse rounded-md"></div>
+    
+    {/* Branch Skeleton */}
+    <div className="mt-1 w-32 h-5 bg-gray-200/10 animate-pulse rounded-md"></div>
+  </div>
+);
+
+const ImageWithSkeleton = ({ src, alt, w, h }) => {
+  const [imageLoading, setImageLoading] = useState(true);
+  
+  return (
+    <div className="w-52 h-52 rounded-full overflow-hidden relative">
+      {imageLoading && (
+        <div className="absolute inset-0 bg-gray-200/10 animate-pulse rounded-full z-10"></div>
+      )}
+      <MyImage
+        w={w}
+        h={h}
+        alt={alt}
+        src={src}
+        onLoad={() => setImageLoading(false)}
+      />
+    </div>
+  );
+};
+
+const ButtonSkeleton = () => (
+  <div className="w-full h-[6vh] bg-gray-200/10 animate-pulse rounded-[7px] mt-8"></div>
+);
+
+const BackButtonSkeleton = () => (
+  <div className="w-24 h-[6vh] bg-gray-200/10 animate-pulse rounded-[7px] mt-3"></div>
+);
+
+const NavBarSkeleton = () => (
+  <div className="w-full h-16 flex flex-row items-center justify-between px-4 bg-gray-200/10 animate-pulse">
+    <div className="w-10 h-10 rounded-full bg-gray-200/20 animate-pulse"></div>
+    <div className="w-32 h-6 bg-gray-200/20 animate-pulse rounded-md"></div>
+    <div className="w-10 h-10 rounded-full bg-gray-200/20 animate-pulse"></div>
+  </div>
+);
+
 export default function UserPage() {
-     const router = useRouter()
+  const router = useRouter();
   const { uid } = useParams();
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [profile, setProfile] = useState(null);
+  const [userLoading, setUserLoading] = useState(true);
+  const [profileLoading, setProfileLoading] = useState(true);
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [searchOpen, setsearchOpen] = useState(false);
@@ -27,10 +78,12 @@ export default function UserPage() {
 
   useEffect(() => {
     const fetchUser = async () => {
+      setUserLoading(true);
       const {
         data: { user },
       } = await supabase.auth.getUser();
       setUser(user);
+      setUserLoading(false);
     };
     fetchUser();
   }, []);
@@ -65,24 +118,34 @@ export default function UserPage() {
 
   useEffect(() => {
     const fetchProfile = async () => {
-      setLoading(true);
+      setProfileLoading(true);
       const res = await fetch(`/api/qanda/userdetails?uuid=${uid}`);
       const data = await res.json();
       setProfile(data);
       console.log(profile);
-      setLoading(false);
+      setProfileLoading(false);
     };
     fetchProfile();
   }, [uid]);
 
-  if (user === null) {
-    return <div className="text-white text-center w-screen h-screen flex flex-row justify-center items-center">Please log in to view this page.
-        <a href="/login" className=" underline font-bold ml-2 text-[var(--primary-color)] ">Go to Login</a>
-    </div>;
+  // Show login prompt if user is not authenticated
+  if (userLoading) {
+    return (
+      <div className="text-white text-center w-screen h-screen flex flex-row justify-center items-center">
+        <div className="w-64 h-8 bg-gray-200/20 animate-pulse rounded-md"></div>
+      </div>
+    );
   }
 
-  if (loading) {
-    return <div className="text-white">Loading profile...</div>;
+  if (user === null) {
+    return (
+      <div className="text-white text-center w-screen h-screen flex flex-row justify-center items-center">
+        Please log in to view this page.
+        <a href="/login" className="underline font-bold ml-2 text-[var(--primary-color)]">
+          Go to Login
+        </a>
+      </div>
+    );
   }
 
   console.log("212", profileData.profilepic);
@@ -103,36 +166,58 @@ export default function UserPage() {
       <Gradient />
       <div className="w-screen h-screen text-white flex flex-col">
         {/* NAV */}
-        <NavBar
-          profilepic={profileData.profilepic}
-          setSidebarOpen={setSidebarOpen}
-          setsearchOpen={setsearchOpen}
-        />
-        <div className="mt-12 w-full h-fit flex flex-col justify-center items-center px-7 ">
-            <div className=" border-1 border-[#717171] w-full flex flex-col justify-center items-center rounded-[7px] py-8">
-          <div className="w-52 h-52 rounded-full overflow-hidden relative">
-            <MyImage
-              w={300}
-              h={300}
-              alt="Profile Pic"
-              src={
-                profile?.profile_img ||
-                "https://images.unsplash.com/photo-1748638904723-d833c6cf542b?q=80&w=2520&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-              }
-            />
-          </div>
-          <div className="text-2xl mt-6 font-semibold">{profile?.full_name}</div>
-          <div className="mt-1 opacity-40">{profile?.branch}</div>
-          </div>
-          <button className="w-full h-[6vh] flex flex-row justify-center items-center gap-2 bg-[var(--primary-color)] rounded-[7px] mt-8 text-center transition-all text-black active:text-lg">
-            Answer Question
-          </button>
-        <button onClick={() => {
-              router.push(`/dashboard/user/${user.id}`)
-     
-        }} className="w-auto h-[6vh] underline  text-[#717171] rounded-[7px] mt-3 text-center transition-all hover:text-white active:text-white  active:text-lg">
-            Go Back
-          </button>
+   
+
+       
+          <NavBar
+            profilepic={profileData.profilepic}
+            setSidebarOpen={setSidebarOpen}
+            setsearchOpen={setsearchOpen}
+          />
+    
+        
+        <div className="mt-12 w-full h-fit flex flex-col justify-center items-center px-7">
+          {/* Profile Section */}
+          {profileLoading ? (
+            <ProfileSkeleton />
+          ) : (
+            <div className="border-1 border-[#717171] w-full flex flex-col justify-center items-center rounded-[7px] py-8">
+              <ImageWithSkeleton
+                w={300}
+                h={300}
+                alt="Profile Pic"
+                src={
+                  profile?.profile_img ||
+                  "https://images.unsplash.com/photo-1748638904723-d833c6cf542b?q=80&w=2520&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                }
+              />
+              <div className="text-2xl mt-6 font-semibold">{profile?.full_name}</div>
+              <div className="mt-1 opacity-40">{profile?.branch}</div>
+            </div>
+          )}
+
+          {/* Answer Question Button */}
+          {profileLoading ? (
+            <ButtonSkeleton />
+          ) : (
+            <button className="w-full h-[6vh] flex flex-row justify-center items-center gap-2 bg-[var(--primary-color)] rounded-[7px] mt-8 text-center transition-all text-black active:text-lg">
+              Answer Question
+            </button>
+          )}
+
+          {/* Go Back Button */}
+          {profileLoading ? (
+            <BackButtonSkeleton />
+          ) : (
+            <button
+              onClick={() => {
+                router.push(`/dashboard/user/${user.id}`);
+              }}
+              className="w-auto h-[6vh] underline text-[#717171] rounded-[7px] mt-3 text-center transition-all hover:text-white active:text-white active:text-[13px]"
+            >
+              Go Back
+            </button>
+          )}
         </div>
       </div>
     </>

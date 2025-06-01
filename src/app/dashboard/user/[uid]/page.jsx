@@ -20,6 +20,8 @@ export default function UserPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [searchOpen, setsearchOpen] = useState(false);
 
+  const [loadingWelcome, setloadingWelcome] = useState(true)
+
   const [profileData, setProfileData] = useState({
     name: "",
     profilepic: "",
@@ -42,12 +44,13 @@ export default function UserPage() {
         console.error("Error fetching profile data:", error);
         return;
       }
-      console.log("id:",data.profile_img)
+      
       setProfileData({
         name: data.full_name ?? "",
         profilepic: data.profile_img ?? "",
         points: data.points ?? 0,
       });
+      setloadingWelcome(false)
     }
 
     fetchProfile();
@@ -79,7 +82,7 @@ export default function UserPage() {
         <NavBar profilepic={profileData.profilepic} setSidebarOpen={setSidebarOpen} setsearchOpen={setsearchOpen} />
 
         {/* WELCOME */}
-        <WelcomeData name={profileData.name} reward={profileData.points} ppI={12} />
+        <WelcomeData loading={loadingWelcome} name={profileData.name} reward={profileData.points} ppI={12} />
 
         {/* EVENTS */}
         <Events uid={uid} />
