@@ -6,7 +6,7 @@ import Link from "next/link";
 function SkeletonCard() {
   return (
     <div className="flex flex-col animate-pulse" key={Math.random()}>
-      <div className="w-[27vw] h-[16vh] bg-gray-200/30 rounded-[7px] flex items-center justify-center" />
+      <div className="w-[120px] h-[135px] bg-gray-200/30 rounded-[7px] flex items-center justify-center" />
       <div className="mt-2 h-5 w-2/3 bg-gray-200/50 rounded" />
       <div className="mt-1 h-3 w-1/3 bg-gray-200/30 rounded" />
     </div>
@@ -59,14 +59,14 @@ export default function EventPage({ uid }) {
             <h2 className="text-[1rem] font-bold opacity-40 mb-6">{type}</h2>
             <div className="z-30 overflow-x-scroll flex flex-row gap-5">
               {eventsOfType.map((event) => (
-                <Link
+                <a
                  
                    href={`/dashboard/user/${uid}/events/${event.id}`}
                 
                   className="flex flex-col"
                   key={event.id}
                 >
-                  <div className="w-[27vw] h-[16vh] bg-white/10 rounded-[7px] overflow-hidden flex items-center justify-center">
+                  <div className="w-[120px] h-[135px] bg-white/10 rounded-[7px] overflow-hidden flex items-center justify-center">
                     <Image
                       src={event.image_url}
                       alt=""
@@ -76,7 +76,7 @@ export default function EventPage({ uid }) {
                     />
                   </div>
                   <h1 className="mt-2 text-lg font-medium">{event.title}</h1>
-                </Link>
+                </a>
               ))}
             </div>
           </section>

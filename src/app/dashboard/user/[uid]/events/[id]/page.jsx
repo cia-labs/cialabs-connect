@@ -10,6 +10,7 @@ import SideBar from "@dashboard/SideBar";
 import { createClient } from "@/utils/supabase/client";
 import { ExternalLink, HeartIcon } from "lucide-react";
 import { MyImage } from "@/components/Image/Image";
+import { BookmarkAdd } from "@mui/icons-material";
 
 function SkeletonCard() {
   return (
@@ -242,9 +243,10 @@ export default function UserPage() {
 
       <button
         onClick={handleBookmark}
-        className="w-full h-[6vh] border-2 border-[#717171] text-[#717171] active:bg-[var(--primary-color)] hover:bg-[var(--primary-color)] rounded-[7px] mt-6 text-center transition-all hover:border-none active:border-none hover:text-black active:text-black active:text-lg"
+        className="w-full h-[6vh] underline text-[#717171] active:bg-[var(--primary-color)] hover:bg-[var(--primary-color)] rounded-[7px] mt-6 text-center transition-all hover:border-none active:border-none hover:text-black active:text-black active:text-lg"
       >
         {bookmarkState}
+        <BookmarkAdd  className="ml-2"/>
       </button>
     </>
   ) : (

@@ -7,7 +7,7 @@ import Link from "next/link";
 function SkeletonCard() {
   return (
     <div className="flex flex-col animate-pulse" key={Math.random()}>
-      <div className="w-[27vw] h-[16vh] bg-gray-200/30 rounded-[7px] flex items-center justify-center" />
+      <div className="w-[120px] h-[135px] bg-gray-200/30 rounded-[7px] flex items-center justify-center" />
       <div className="mt-2 h-5 w-2/3 bg-gray-200/50 rounded" />
       <div className="mt-1 h-3 w-1/3 bg-gray-200/30 rounded" />
     </div>
@@ -43,7 +43,7 @@ export default function Events({ uid }) {
   }, []);
 
   return (
-    <div className="flex flex-col mt-[3vh] pl-7 lg:pl-[10vw] lg:pr-[10vw]">
+    <div className="flex flex-col mt-[4vh] pl-7 lg:pl-[10vw] lg:pr-[10vw]">
       <a href={`/dashboard/user/${uid}/events`} className="text-[1rem] font-bold opacity-40 ">
         Our Exhibitions <NavigateNextIcon />
       </a>
@@ -66,7 +66,7 @@ export default function Events({ uid }) {
               className="flex flex-col text-start"
               key={event.id}
             >
-              <div className="w-[120px] h-[150px] bg-white/10 rounded-[7px] overflow-hidden flex items-center justify-center">
+              <div className="w-[120px] h-[135px] bg-white/10 rounded-[7px] overflow-hidden flex items-center justify-center">
                 <MyImage src={event.image_url} alt="" w={333} h={600} />
               </div>
               <h1 className="mt-2 text-lg font-medium">{event.title}</h1>

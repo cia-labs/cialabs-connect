@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { MyImage } from "@/components/Image/Image";
 
 function SkeletonRow() {
@@ -19,32 +19,22 @@ function SkeletonRow() {
 export default function Leaderboard() {
   const [ranks, setRanks] = useState([]);
   const [loading, setLoading] = useState(true);
-  const prevDataRef = useRef(null);
-
-  // Fetch leaderboard data and update only if changed
-  const fetchLeaderboard = async () => {
-    try {
-      const res = await fetch('/api/data/leaderboard');
-      const data = await res.json();
-      const dataString = JSON.stringify(data);
-      if (prevDataRef.current !== dataString) {
-        setRanks(data);
-        prevDataRef.current = dataString;
-      }
-      setLoading(false);
-    } catch {
-      setLoading(false);
-    }
-  };
 
   useEffect(() => {
+    const fetchLeaderboard = async () => {
+      try {
+        const res = await fetch('/api/data/leaderboard');
+        const data = await res.json();
+        setRanks(data);
+      } finally {
+        setLoading(false);
+      }
+    };
     fetchLeaderboard();
-    const interval = setInterval(fetchLeaderboard, 30000); // Poll every 30s
-    return () => clearInterval(interval);
   }, []);
 
   return (
-    <div className="flex flex-col mt-[3vh] px-7 lg:px-[10vw] ">
+    <div className="flex flex-col mt-[4vh] px-7 lg:px-[10vw] ">
       <div className="text-[1rem] font-bold opacity-40 ">
         Leaderboard 
       </div>

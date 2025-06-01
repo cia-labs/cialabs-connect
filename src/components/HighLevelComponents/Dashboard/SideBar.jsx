@@ -66,19 +66,19 @@ export default function SideBar({
 
         <div className="mt-12 w-full h-[1px] bg-white opacity-30"></div>
 
-        <div className="mt-8 flex flex-col w-full px-4 font-medium">
-          <Link
+        <div className="mt-4 flex flex-col w-full px-4 font-medium">
+          <a
             href={`/dashboard/user/${uid}/profile`}
             
             className="text-[#a1a1a1] transition-all active:text-white active:text-sm flex flex-row justify-between items-center py-2 px-2 rounded-lg hover:bg-white/5"
           >
             <span>View Profile</span>
             <NavigateNextIcon />
-          </Link>
-          <Link href={'/comingsoon'} className="mt-4 flex flex-row justify-between items-center text-[#a1a1a1]   transition-all  active:text-sm   active:text-white py-2 px-2 rounded-lg hover:bg-white/5">
+          </a>
+          <a href={'/comingsoon'} className="mt-1 flex flex-row justify-between items-center text-[#a1a1a1]   transition-all  active:text-sm   active:text-white py-2 px-2 rounded-lg hover:bg-white/5">
             <span>Connections</span>
             <NavigateNextIcon />
-          </Link>
+          </a>
         </div>
       </div>
     </>

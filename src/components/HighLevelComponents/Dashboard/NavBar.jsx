@@ -33,9 +33,9 @@ export default function NavBar({ setsearchOpen, setSidebarOpen, profilepic }) {
         >
           <SearchOutlinedIcon sx={{ fontSize: 28 }} color="inherit" />
         </button>
-        <Link href={'/comingsoon'} className=" text-[#9F3734] active:text-[#ff625c] transition-all active:text-lg">
+        <a href={'/comingsoon'} className=" text-[#9F3734] active:text-[#ff625c] transition-all active:text-lg">
           <BookmarkIcon sx={{ fontSize: 28 }} htmlColor="#A03734" />
-        </Link>
+        </a>
       </div>
     </div>
   );

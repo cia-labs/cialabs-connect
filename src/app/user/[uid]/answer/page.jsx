@@ -210,14 +210,14 @@ export default function UserPage() {
           {profileLoading ? (
             <BackButtonSkeleton />
           ) : (
-            <Link
+            <a
               
                 href={`/dashboard/user/${user.id}`}
               
               className="w-auto h-[6vh] underline text-[#717171] rounded-[7px] mt-4 text-center transition-all hover:text-white active:text-white active:text-[13px]"
             >
               Go Back
-            </Link>
+            </a>
           )}
         </div>
                     <footer className="mt-auto py-4 bg-transparent">
