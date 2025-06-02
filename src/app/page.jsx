@@ -14,7 +14,7 @@ export default function Home() {
           </div>
 
           <h1 className=" text-xl">
-            CIA <b>Labs</b> Dev Route V1
+            CIA <b>Labs</b> 
           </h1>
         </a>
 
