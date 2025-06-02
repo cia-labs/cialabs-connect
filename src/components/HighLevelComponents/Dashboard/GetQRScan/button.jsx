@@ -16,12 +16,12 @@ export default function GetQrScanQrBTN({ uid }) {
       >
         Get QR <QrCodeRoundedIcon />
       </button>
-      <a
-        href={"/comingsoon"}
+      <Link
+        href={`/dashboard/user/${uid}/scan`}
         className="w-[50%] h-full text-black/70  transition-all active:text-lg active:text-black flex flex-row justify-center items-center gap-2 bg-[#C2F970] rounded-r-[30px] "
       >
         Scan <CropFreeRoundedIcon />
-      </a>
+      </Link>
     </div>
   );
 }
