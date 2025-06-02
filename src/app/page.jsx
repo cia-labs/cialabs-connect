@@ -1,5 +1,5 @@
 import Image from "next/image";
-import UserGreetText from "@/components/UserGreetText";
+
 
 import React from "react";
 import LoginButton from "@/components/LoginLogoutButton";
@@ -22,8 +22,6 @@ export default function Home() {
       </nav>
 
       <div className=" text-white">
-        <UserGreetText /> <br />
-        <a href="/auth/callback">Go To Dashboard</a>
       </div>
     </div>
   );

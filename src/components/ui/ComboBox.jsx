@@ -1,9 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 
 // Single select ComboBox
 const ComboBox = ({ options, placeholder = "Select an option", color, onSelect }) => {
     const [input, setInput] = useState("");
     const [isOpen, setIsOpen] = useState(false);
+    const containerRef = useRef(null);
+
+    // Handle click outside
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (containerRef.current && !containerRef.current.contains(event.target)) {
+                setIsOpen(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
 
     // If input has value, always use gray border
     const colorClass =
@@ -15,7 +30,7 @@ const ComboBox = ({ options, placeholder = "Select an option", color, onSelect }
               }[color] || "border-gray-400";
 
     return (
-        <div className="relative w-full transition-all">
+        <div ref={containerRef} className="relative w-full transition-all">
             <input
                 type="text"
                 value={input}
@@ -60,6 +75,21 @@ const MultiSelectComboBox = ({
     const [input, setInput] = useState("");
     const [isOpen, setIsOpen] = useState(false);
     const [selected, setSelected] = useState([]);
+    const containerRef = useRef(null);
+
+    // Handle click outside
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (containerRef.current && !containerRef.current.contains(event.target)) {
+                setIsOpen(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
 
     const colorClass =
         input.trim().length > 0
@@ -70,19 +100,19 @@ const MultiSelectComboBox = ({
               }[color] || "border-gray-400";
 
     const handleSelect = (option) => {
-    if (selected.length >= 4) {
+        if (selected.length >= 4) {
+            setInput("");
+            setIsOpen(false);
+            return;
+        }
+        if (!selected.includes(option)) {
+            const newSelected = [...selected, option];
+            setSelected(newSelected);
+            onSelect && onSelect(newSelected);
+        }
         setInput("");
         setIsOpen(false);
-        return;
-    }
-    if (!selected.includes(option)) {
-        const newSelected = [...selected, option];
-        setSelected(newSelected);
-        onSelect && onSelect(newSelected);
-    }
-    setInput("");
-    setIsOpen(false);
-};
+    };
 
     const handleRemove = (option) => {
         const newSelected = selected.filter((item) => item !== option);
@@ -91,12 +121,12 @@ const MultiSelectComboBox = ({
     };
 
     return (
-        <div className="relative w-full transition-all">
+        <div ref={containerRef} className="relative w-full transition-all">
             <div className={`flex flex-wrap gap-1 p-1 border ${colorClass} rounded-[7px] h-auto min-h-[6vh] transition-all`}>
                 {selected.map((option, idx) => (
                     <span
                         key={option}
-                        className="flex items-center bg-gray-900 text-white px-2 py-1 rounded mr-1 mb-1 text-sm"
+                        className="flex items-center bg-gray-100/10 text-white px-2 py-1 rounded mr-1 mb-1 text-sm"
                     >
                         {option}
                         <button
@@ -119,29 +149,28 @@ const MultiSelectComboBox = ({
                     onClick={() => setIsOpen(true)}
                     className="flex-1 min-w-[100px] p-2 outline-none bg-transparent"
                 />
-               
             </div>
-{isOpen && (
-    <ul className="absolute transition-all z-10 mt-2 w-full p-3 border bg-[var(--bg-color)] border-gray-300 rounded-[7px] shadow-md max-h-48 overflow-y-auto">
-        {selected.length >= 4 ? (
-            <li className="p-2 text-gray-500 cursor-not-allowed">Maximum 4 options selected</li>
-        ) : (
-            options
-                .filter(
-                    (option) =>
-                        option.toLowerCase().includes(input.toLowerCase()) &&
-                        !selected.includes(option)
-                )
-                .map((option, index) => (
-                    <li
-                        key={index}
-                        onClick={() => handleSelect(option)}
-                        className="p-2 transition-all hover:bg-blue-100 cursor-pointer"
-                    >
-                        {option}
-                    </li>
-                ))
-        )}
+            {isOpen && (
+                <ul className="absolute transition-all z-10 mt-2 w-full p-3 border bg-[var(--bg-color)] border-gray-300 rounded-[7px] shadow-md max-h-48 overflow-y-auto">
+                    {selected.length >= 4 ? (
+                        <li className="p-2 text-gray-500 cursor-not-allowed">Maximum 4 options selected</li>
+                    ) : (
+                        options
+                            .filter(
+                                (option) =>
+                                    option.toLowerCase().includes(input.toLowerCase()) &&
+                                    !selected.includes(option)
+                            )
+                            .map((option, index) => (
+                                <li
+                                    key={index}
+                                    onClick={() => handleSelect(option)}
+                                    className="p-2 transition-all hover:bg-blue-100 cursor-pointer"
+                                >
+                                    {option}
+                                </li>
+                            ))
+                    )}
                 </ul>
             )}
         </div>
@@ -149,7 +178,3 @@ const MultiSelectComboBox = ({
 };
 
 export { ComboBox, MultiSelectComboBox };
-
-
-
-

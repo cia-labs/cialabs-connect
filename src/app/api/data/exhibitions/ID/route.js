@@ -14,11 +14,11 @@ export async function GET(request) {
   }
 
   // Fetch exhibition data
-  const { data, error } = await supabase
-    .from('exhibitions')
-    .select('*')
-    .eq('id', id)
-    .single();
+const { data, error } = await supabase
+  .from('exhibitions')
+  .select('id, title, image_url, type, description, website_url, instalink, whatapplink, githublink, linkedinlink')
+  .eq('id', id)
+  .single();
 
   if (error) {
     return new Response(JSON.stringify({ error: error.message }), { status: 500 });
@@ -34,7 +34,7 @@ export async function GET(request) {
     .from('user_exhibition_likes')
     .select('user_id', { count: 'exact', head: true })
     .eq('exhibition_id', id)
-    .like('type', '%register%');
+    .like('type', '%bookmark%');
 
   if (countError) {
     return new Response(JSON.stringify({ error: countError.message }), { status: 500 });

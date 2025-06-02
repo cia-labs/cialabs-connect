@@ -322,26 +322,50 @@ export default function UserPage() {
 
       {/* Success Overlay */}
       {showSuccessOverlay && (
-        <div className="w-screen h-screen bg-black/30 fixed top-0 backdrop-blur-2xl z-50 flex flex-col justify-center items-center text-center text-lg">
-          <div className="text-9xl">🏆</div>
-          <div className="text-white mt-8 text-xl font-semibold">
-            Congrats you got +{pointsEarned} Points
+        pointsEarned === 0 ? (
+          
+          <div className="w-screen h-screen bg-black/30 fixed top-0 backdrop-blur-2xl z-50 flex flex-col justify-center items-center text-center text-lg">
+            <div className="text-9xl">🐈</div>
+            <div className="text-white mt-8 text-xl font-semibold">
+              Know more about {profile?.full_name} 😭
+            </div>
+            <div className="w-full px-7 flex flex-col mt-8">
+              <a 
+                href={`/dashboard/user/${user?.id}`}
+                className="w-full h-[6vh] flex flex-row justify-center items-center gap-2 bg-[var(--primary-color)] rounded-[7px] mt-6 text-center transition-all text-black active:text-lg"
+              >
+                Go to Dashboard <Dashboard size={18} />
+              </a>
+              <button 
+                onClick={handleBookmark}
+                className="w-full h-[6vh] underline opacity-40 text-white active:bg-[var(--primary-color)] hover:bg-[var(--primary-color)] rounded-[7px] mt-6 text-center transition-all hover:border-none active:border-none hover:text-black active:text-black active:text-lg"
+              >
+                {bookmarkText} {profile?.full_name} <BookmarkAdd className="ml-2" />
+              </button>
+            </div>
           </div>
-          <div className="w-full px-7 flex flex-col mt-8">
-            <a 
-              href={`/dashboard/user/${user?.id}`}
-              className="w-full h-[6vh] flex flex-row justify-center items-center gap-2 bg-[var(--primary-color)] rounded-[7px] mt-6 text-center transition-all text-black active:text-lg"
-            >
-              Go to Dashboard <Dashboard size={18} />
-            </a>
-            <button 
-              onClick={handleBookmark}
-              className="w-full h-[6vh] underline opacity-40 text-white active:bg-[var(--primary-color)] hover:bg-[var(--primary-color)] rounded-[7px] mt-6 text-center transition-all hover:border-none active:border-none hover:text-black active:text-black active:text-lg"
-            >
-              {bookmarkText} {profile?.full_name} <BookmarkAdd className="ml-2" />
-            </button>
+        ) : (
+          <div className="w-screen h-screen bg-black/30 fixed top-0 backdrop-blur-2xl z-50 flex flex-col justify-center items-center text-center text-lg">
+            <div className="text-9xl">🏆</div>
+            <div className="text-white mt-8 text-xl font-semibold">
+              Congrats you got +{pointsEarned} Points
+            </div>
+            <div className="w-full px-7 flex flex-col mt-8">
+              <a 
+                href={`/dashboard/user/${user?.id}`}
+                className="w-full h-[6vh] flex flex-row justify-center items-center gap-2 bg-[var(--primary-color)] rounded-[7px] mt-6 text-center transition-all text-black active:text-lg"
+              >
+                Go to Dashboard <Dashboard size={18} />
+              </a>
+              <button 
+                onClick={handleBookmark}
+                className="w-full h-[6vh] underline opacity-40 text-white active:bg-[var(--primary-color)] hover:bg-[var(--primary-color)] rounded-[7px] mt-6 text-center transition-all hover:border-none active:border-none hover:text-black active:text-black active:text-lg"
+              >
+                {bookmarkText} {profile?.full_name} <BookmarkAdd className="ml-2" />
+              </button>
+            </div>
           </div>
-        </div>
+        )
       )}
 
       {/* Already Answered Overlay */}

@@ -107,7 +107,7 @@ export default function page() {
 
     // ✅ Success
     router.push(`/dashboard/user/${uid}`);
-    setloading(false)
+    
   };
   return (
     <>

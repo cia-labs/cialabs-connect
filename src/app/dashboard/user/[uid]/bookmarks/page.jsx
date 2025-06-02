@@ -192,7 +192,7 @@ export default function UserPage() {
         </div>
 
         {/* EXHIBITIONS SECTION */}
-        <div className="flex flex-col w-full px-7">
+        <div className="flex flex-col w-full px-7 pb-24">
           <h1 className="mt-10 text-xl font-semibold opacity-40">Exhibitions</h1>
           
           {loading ? (
@@ -221,6 +221,11 @@ export default function UserPage() {
             </div>
           )}
         </div>
+        <footer className="mt-auto py-4 bg-transparent ">
+          <div className="text-center text-gray-400 text-sm">
+            © {new Date().getFullYear()} CIA Labs
+          </div>
+        </footer>
       </div>
     </>
   );

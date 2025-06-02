@@ -19,6 +19,7 @@ export default function UserPage() {
   const { uid } = useParams();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [searchOpen, setsearchOpen] = useState(false);
+  const [totalScans, setTotalScans] = useState(0);
 
   const [loadingWelcome, setloadingWelcome] = useState(true)
 
@@ -53,7 +54,30 @@ export default function UserPage() {
       setloadingWelcome(false)
     }
 
-    fetchProfile();
+  fetchProfile();
+      async function fetchConnections() {
+        if (!uid) return;
+        
+        try {
+          const response = await fetch(`/api/data/connections?uid=${uid}`);
+          const result = await response.json();
+          
+          if (!response.ok) {
+            throw new Error(result.message || 'Failed to fetch connections');
+          }
+          
+          console.log(result);
+          
+          setTotalScans(result.total_scans || 0);
+        } catch (err) {
+          console.error('Error fetching connections:', err);
+          setError(err.message);
+        } finally {
+          
+        }
+      }
+  
+      fetchConnections();
   }, [uid]);
 
 useEffect(() => {
@@ -123,7 +147,7 @@ useEffect(() => {
       <NavBar uid={uid} profilepic={profileData.profilepic} setSidebarOpen={setSidebarOpen} setsearchOpen={setsearchOpen} />
 
       {/* WELCOME */}
-      <WelcomeData loading={loadingWelcome} name={profileData.name} reward={profileData.points} ppI={12} />
+      <WelcomeData uid={uid} loading={loadingWelcome} name={profileData.name} reward={profileData.points} ppI={totalScans} />
 
       {/* EVENTS */}
       <Events uid={uid} />
@@ -132,7 +156,7 @@ useEffect(() => {
       <Leaderboard />
 
       {/* Footer */}
-      <footer className="mt-auto py-4 bg-transparent">
+      <footer className="mt-auto py-4 bg-transparent mb-8">
         <div className="text-center text-gray-400 text-sm">
           © {new Date().getFullYear()} CIA Labs
         </div>
