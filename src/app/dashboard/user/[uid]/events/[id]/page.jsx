@@ -57,7 +57,7 @@ export default function UserPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [searchOpen, setsearchOpen] = useState(false);
   const [bookmarkState, setbookmarkState] = useState("Bookmark");
-
+  const [vtext , setVText] = useState("Visit")
   const [imgLoaded, setImageLoaded] = useState(false);
 
   const [Text, setTextLoaded] = useState(false);
@@ -121,6 +121,7 @@ export default function UserPage() {
 
   const handleVisit = async () => {
     try {
+      setVText("Loading")
       const res = await fetch("/api/data/exhibitions/ID/log-intersets", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -128,12 +129,15 @@ export default function UserPage() {
       });
       const data = await res.json();
       if (data.url) {
+
         // Ensure the URL has a protocol, default to https if missing
         const url =
           data.url.startsWith("http://") || data.url.startsWith("https://")
             ? data.url
             : `https://${data.url}`;
-        window.open(url, "_blank");
+        // Use location.href for better mobile compatibility
+        window.location.href = url;
+        window.location.reload
       }
     } catch (err) {
       console.error("Visit failed:", err);
@@ -240,7 +244,7 @@ export default function UserPage() {
         onClick={handleVisit}
         className="w-full h-[6vh] flex flex-row justify-center items-center gap-2 bg-[var(--primary-color)] rounded-[7px] mt-6 text-center transition-all text-black active:text-lg"
       >
-        Visit <ExternalLink size={18} />
+        {vtext} <ExternalLink size={18} />
       </button>
 
       <button

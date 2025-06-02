@@ -148,6 +148,9 @@ export default function UserPage() {
   }
 
   if (user === null) {
+    localStorage.setItem("redirect", "true")
+    localStorage.setItem("redirect_type", "ans")
+    localStorage.setItem("redirect_type_uid",uid )
     return (
       <div className="text-white text-center w-screen h-screen flex flex-row justify-center items-center">
         Please log in to view this page.
@@ -159,7 +162,6 @@ export default function UserPage() {
   }
 
   console.log("212", profileData.profilepic);
-
   return (
     <>
       {/* Sidebar */}
@@ -181,7 +183,7 @@ export default function UserPage() {
 
        
           <NavBar
-          uid={uid}
+          uid={user.id}
             profilepic={profileData.profilepic}
             setSidebarOpen={setSidebarOpen}
             setsearchOpen={setsearchOpen}

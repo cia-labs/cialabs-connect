@@ -56,7 +56,48 @@ export default function UserPage() {
     fetchProfile();
   }, [uid]);
 
-  console.log("212",profileData.profilepic)
+useEffect(() => {
+  // Ensure we're on client side and component is mounted
+  if (typeof window === "undefined" || !uid) return;
+  
+  // Add a small delay to ensure localStorage is set by previous page
+  const timeoutId = setTimeout(() => {
+    try {
+      const redirect = localStorage.getItem("redirect");
+      console.log("Redirect value:", redirect); // Debug log
+      
+      if (!redirect || redirect !== "true") return;
+      
+      const type = localStorage.getItem("redirect_type");
+      const id = localStorage.getItem("redirect_type_uid");
+      
+      console.log("Redirect type:", type, "ID:", id); // Debug log
+      
+      // Clean up redirect keys first
+      localStorage.removeItem("redirect");
+      localStorage.removeItem("redirect_type");
+      localStorage.removeItem("redirect_type_uid");
+      
+      // Perform redirects
+      if (type === "evt" && id) {
+        console.log("Redirecting to event:", `/dashboard/user/${uid}/events/${id}`);
+        window.location.replace(`/dashboard/user/${uid}/events/${id}`);
+      } else if (type === "ans" && id) {
+        console.log("Redirecting to answer:", `/user/${id}/answer`);
+        window.location.replace(`/user/${id}/answer`);
+      }
+    } catch (error) {
+      console.error("Error in redirect logic:", error);
+      // Clean up on error
+      localStorage.removeItem("redirect");
+      localStorage.removeItem("redirect_type");
+      localStorage.removeItem("redirect_type_uid");
+    }
+  }, 100); // Small delay to ensure localStorage is available
+  
+  return () => clearTimeout(timeoutId);
+}, [uid]);
+
   return (
   <>
     {/* Sidebar */}
