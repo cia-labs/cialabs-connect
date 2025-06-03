@@ -307,8 +307,7 @@ function Page() {
               )}
               <span style={{ display: imgLoaded ? "block" : "none" }}>
                 <MyImage
-                  w={300}
-                  h={300}
+                  fill
                   alt="Profile Pic"
                   src={profile.profilepic}
                   onLoad={() => setImgLoaded(true)}
@@ -316,8 +315,7 @@ function Page() {
               </span>
 
               <MyImage
-                w={300}
-                h={300}
+                fill
                 alt="Profile Pic"
                 src={profile.profilepic}
               />

@@ -44,10 +44,13 @@ export default function Events({ uid }) {
 
   return (
     <div className="flex flex-col mt-[4vh] pl-7 lg:pl-[10vw] lg:pr-[10vw]">
-      <a href={`/dashboard/user/${uid}/events`} className="text-[1rem] font-bold opacity-40 ">
+      <a
+        href={`/dashboard/user/${uid}/events`}
+        className="text-[1rem] font-bold opacity-40 "
+      >
         Our Exhibitions <NavigateNextIcon />
       </a>
-      <div className="mt-[2vh] z-30 overflow-x-scroll flex flex-row gap-5 ">
+      <div className="mt-[2vh] z-30 overflow-x-scroll flex flex-row gap-5 pr-7 ">
         {loading ? (
           // Show 3 skeleton cards while loading
           <>
@@ -57,23 +60,19 @@ export default function Events({ uid }) {
           </>
         ) : (
           events.map((event) => (
-            <button
-              
-              onClick={() => {
-                history.pushState(null, "", `/dashboard/user/${uid}/events/${event.id}`)
-                location.reload()
-              }}
-              className="flex flex-col text-start"
+            <a
+              href={`/dashboard/user/${uid}/events/${event.id}`}
+              className="flex flex-col text-start mb-4"
               key={event.id}
             >
               <div className="w-[120px] h-[135px] bg-white/10 rounded-[7px] overflow-hidden flex items-center justify-center">
-                <MyImage src={event.image_url} alt="" w={333} h={600} />
+                <MyImage src={event.image_url} alt="" fill />
               </div>
               <h1 className="mt-2 text-lg font-medium">{event.title}</h1>
               <p className="mt-1 text-xs opacity-40 font-medium ">
                 {event.type}
               </p>
-            </button>
+            </a>
           ))
         )}
       </div>

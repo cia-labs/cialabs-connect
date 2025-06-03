@@ -8,7 +8,7 @@ type MyImageProps = {
   w: number;
   h: number;
   blurDataURL?: string;
-  fill? : boolean
+  fill?: boolean;
   onLoad?: ImageProps['onLoad'];
 };
 
@@ -18,13 +18,16 @@ export function MyImage({ alt, src, w, h, onLoad, fill }: MyImageProps) {
   }
 
   return (
-    <div>
+    <div
+      className='w-full h-full overflow-hidden relative'
+      style={!fill ? { width: w, height: h } : undefined}
+    >
       <Image
         src={src}
-        width={w}
-        height={h}
         alt={alt}
-        fill={fill}
+        {...(fill
+          ? { fill: true }
+          : { width: w, height: h })}
         priority
         style={{ objectFit: 'cover' }}
         onLoad={onLoad}

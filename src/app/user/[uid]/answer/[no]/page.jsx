@@ -67,7 +67,7 @@ const ProfileSkeleton = () => (
   </div>
 );
 
-const ImageWithSkeleton = ({ src, alt, w, h }) => {
+const ImageWithSkeleton = ({ src, alt }) => {
   const [imageLoading, setImageLoading] = useState(true);
 
   return (
@@ -76,8 +76,7 @@ const ImageWithSkeleton = ({ src, alt, w, h }) => {
         <div className="absolute inset-0 bg-gray-200/10 animate-pulse rounded-full z-10"></div>
       )}
       <MyImage
-        w={w}
-        h={h}
+      fill
         alt={alt}
         src={src}
         onLoad={() => setImageLoading(false)}
@@ -435,8 +434,7 @@ export default function UserPage() {
           ) : (
             <div className="w-full flex flex-row items-center rounded-[7px] py-8">
               <ImageWithSkeleton
-                w={100}
-                h={100}
+
                 alt="Profile Pic"
                 src={
                   profile?.profile_img ||

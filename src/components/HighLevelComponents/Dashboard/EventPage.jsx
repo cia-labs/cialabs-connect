@@ -63,7 +63,7 @@ export default function EventPage({ uid }) {
                  
                    href={`/dashboard/user/${uid}/events/${event.id}`}
                 
-                  className="flex flex-col mb-4"
+                  className="flex flex-col mb-4 pr-7"
                   key={event.id}
                 >
                   <div className="w-[120px] h-[135px] bg-white/10 rounded-[7px] overflow-hidden flex items-center justify-center">
