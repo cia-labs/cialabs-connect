@@ -3,8 +3,7 @@ import React, { useState } from 'react';
 import { Camera } from 'lucide-react';
 import { useParams, useRouter } from 'next/navigation';
 import { Scanner } from '@yudiel/react-qr-scanner';
-import BookmarkIcon from "@mui/icons-material/Bookmark";
-import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
+
 import KeyboardBackspaceRoundedIcon from "@mui/icons-material/KeyboardBackspaceRounded";
 
 export default function QRScannerPage() {
@@ -76,18 +75,7 @@ export default function QRScannerPage() {
           >
             <KeyboardBackspaceRoundedIcon fontSize="large" /> Go Back
           </button>
-          <div className="flex flex-row gap-5">
-            <button>
-              <SearchOutlinedIcon
-                sx={{ fontSize: 28 }}
-                color="inherit"
-                opacity={0.4}
-              />
-            </button>
-            <button className="text-[#9F3734]">
-              <BookmarkIcon sx={{ fontSize: 28 }} htmlColor="#A03734" />
-            </button>
-          </div>
+
         </div>
 
         {/* Main Content */}
@@ -192,4 +180,3 @@ export default function QRScannerPage() {
     </>
   );
 };
-
