@@ -7,14 +7,21 @@ const supabase = createClient(
 
 export async function GET() {
   const { data, error } = await supabase
-  .from('exhibitions')
-  .select('*');
+    .from('exhibitions')
+    .select('*');
 
   if (error) {
     return new Response(JSON.stringify({ error: error.message }), { status: 500 });
   }
 
-  return new Response(JSON.stringify(data), {
+  // Filter out exhibitions where type is null or undefined
+  const filteredData = data?.filter(exhibition => 
+    exhibition.type !== null && 
+    exhibition.type !== undefined && 
+    exhibition.type.trim() !== ''
+  ) || [];
+
+  return new Response(JSON.stringify(filteredData), {
     status: 200,
     headers: { 'Content-Type': 'application/json' },
   });

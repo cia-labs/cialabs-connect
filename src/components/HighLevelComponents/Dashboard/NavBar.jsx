@@ -8,7 +8,7 @@ export default function NavBar({ setsearchOpen, setSidebarOpen, profilepic, book
   const [imgLoaded, setImgLoaded] = useState(false);
 
   return (
-    <div className="w-full h-[9vh] mt-5 flex flex-row justify-between items-center px-7 lg:px-[10vw]">
+    <div className="w-full h-[9vh] mt-12 flex flex-row justify-between items-center px-7 lg:px-[10vw]">
       <div className="w-12 h-12 rounded-full overflow-hidden relative">
         <button onClick={() => setSidebarOpen(true)}>
           {!imgLoaded && (

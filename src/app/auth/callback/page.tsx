@@ -15,6 +15,7 @@ const UserGreetText = () => {
 
       if (error || !user) {
         console.error("Error fetching user:", error);
+        window.location.href = "/login"; // 🔐 Redirect to login if no user
         return;
       }
 

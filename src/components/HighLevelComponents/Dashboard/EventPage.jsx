@@ -57,18 +57,18 @@ export default function EventPage({ uid }) {
         Object.entries(groupedEvents).map(([type, eventsOfType]) => (
           <section key={type} className="mb-8">
             <h2 className="text-[1rem] font-bold opacity-40 mb-6">{type}</h2>
-            <div className="z-30 overflow-x-scroll flex flex-row gap-5">
+            <div className="z-30 overflow-x-scroll flex flex-row gap-5 ">
               {eventsOfType.map((event) => (
                 <a
                  
                    href={`/dashboard/user/${uid}/events/${event.id}`}
                 
-                  className="flex flex-col"
+                  className="flex flex-col mb-4"
                   key={event.id}
                 >
                   <div className="w-[120px] h-[135px] bg-white/10 rounded-[7px] overflow-hidden flex items-center justify-center">
                     <Image
-                      src={event.image_url}
+                      src={event?.image_url}
                       alt=""
                       width={600}
                       height={400}
