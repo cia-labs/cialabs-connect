@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import { MyImage } from "@/components/Image/Image";
-import Link from "next/link";
 
 
 export default function NavBar({ setsearchOpen, setSidebarOpen, profilepic, bookmark, uid }) {
@@ -33,7 +32,7 @@ export default function NavBar({ setsearchOpen, setSidebarOpen, profilepic, book
         >
           <SearchOutlinedIcon sx={{ fontSize: 28 }} color="inherit" />
         </button>
-        <a href={`/dashboard/user/${uid}/bookmarks`} className=" text-[#9F3734] active:text-[#ff625c] transition-all active:text-lg">
+        <a href={`/dashboard/user/${uid}/bookmarks`} className=" text-gray-200/30 active:gray-200/40 transition-all active:text-lg">
           <BookmarkIcon sx={{ fontSize: 28 }} htmlColor={`${!bookmark ? "A03734" : "#ff625c" }`} />
         </a>
       </div>
