@@ -18,7 +18,21 @@ export async function GET(request) {
       );
     }
 
-    // Step 1: Get bookmarked users from bookmarks table
+    // Step 1: Get user exhibition likes for bookmark types
+    const { data: exhibitionLikes, error: likesError } = await supabase
+      .from("user_exhibition_likes")
+      .select("exhibition_id, type, created_at")
+      .eq("user_id", uid)
+      .ilike("type", "%bookmark%")
+      .order("created_at", { ascending: false });
+
+    if (likesError) {
+      return new Response(JSON.stringify({ error: likesError.message }), {
+        status: 500,
+      });
+    }
+
+    // Step 2: Get bookmarked users from bookmarks table
     const { data: bookmarks, error: bookmarksError } = await supabase
       .from("bookmarks")
       .select("bookmarked_user, created_at")
@@ -31,66 +45,17 @@ export async function GET(request) {
       });
     }
 
-    if (!bookmarks || bookmarks.length === 0) {
-      return new Response(
-        JSON.stringify({
-          message: "No bookmarks found",
-          data: [],
-        }),
-        {
-          status: 200,
-          headers: { "Content-Type": "application/json" },
-        }
-      );
-    }
+    let bookmarkedExhibitions = [];
+    let bookmarkedUsers = [];
 
-    // Extract bookmarked user IDs
-    const bookmarkedUserIds = bookmarks.map(
-      (bookmark) => bookmark.bookmarked_user
-    );
-
-    // Step 2: Get user profiles for bookmarked users
-    const { data: profiles, error: profilesError } = await supabase
-      .from("profiles")
-      .select("user_id, full_name, profile_img, branch")
-      .in("user_id", bookmarkedUserIds);
-
-    if (profilesError) {
-      return new Response(JSON.stringify({ error: profilesError.message }), {
-        status: 500,
-      });
-    }
-
-    // Step 3: Get user exhibition likes with type containing 'bookmark'
-    // Using ilike for pattern matching - more reliable approach
-    const { data: exhibitionLikes, error: likesError } = await supabase
-      .from("user_exhibition_likes")
-      .select("user_id, exhibition_id, type, created_at")
-      .eq("user_id", uid)
-      .ilike("type", "%bookmark%");
-    if (likesError) {
-      return new Response(JSON.stringify({ error: likesError.message }), {
-        status: 500,
-      });
-    }
-    console.log(exhibitionLikes);
-
-    // Step 4: Get exhibition IDs from filtered likes
-    const exhibitionIds =
-      exhibitionLikes
-        ?.filter((like) => like.type && like.type.includes("bookmark"))
-        .map((like) => like.exhibition_id) || [];
-    console.log(exhibitionIds);
-    let exhibitions = [];
-    if (exhibitionIds.length > 0) {
-      // Remove duplicates
-      const uniqueExhibitionIds = [...new Set(exhibitionIds)];
-
-      // Step 5: Get exhibition details
-      const { data: exhibitionsData, error: exhibitionsError } = await supabase
+    // Process bookmarked exhibitions
+    if (exhibitionLikes && exhibitionLikes.length > 0) {
+      const exhibitionIds = [...new Set(exhibitionLikes.map(like => like.exhibition_id))];
+      
+      const { data: exhibitions, error: exhibitionsError } = await supabase
         .from("exhibitions")
         .select("id, title, type")
-        .in("id", uniqueExhibitionIds);
+        .in("id", exhibitionIds);
 
       if (exhibitionsError) {
         return new Response(
@@ -98,56 +63,89 @@ export async function GET(request) {
           { status: 500 }
         );
       }
-      console.log(exhibitionsData)
-      exhibitions = exhibitionsData || [];
+
+      bookmarkedExhibitions = exhibitions || [];
     }
 
-    // Step 6: Combine all data
-    const result = bookmarks.map((bookmark) => {
-      // Find corresponding profile
-      const profile = profiles?.find(
-        (p) => p.user_id === bookmark.bookmarked_user
-      );
+    // Process bookmarked users
+    if (bookmarks && bookmarks.length > 0) {
+      const bookmarkedUserIds = bookmarks.map(bookmark => bookmark.bookmarked_user);
 
-      // Find corresponding exhibition likes for this user
-      const userExhibitionLikes =
-        exhibitionLikes?.filter(
-          (like) =>
-            like.user_id === bookmark.bookmarked_user &&
-            like.type &&
-            like.type.includes("bookmark")
-        ) || [];
+      const { data: profiles, error: profilesError } = await supabase
+        .from("profiles")
+        .select("user_id, full_name, profile_img, branch")
+        .in("user_id", bookmarkedUserIds);
 
-      // Get exhibitions for this user
-      const userExhibitions = userExhibitionLikes
-        .map((like) => {
-          return exhibitions.find((ex) => ex.id === like.exhibition_id);
-        })
-        .filter(Boolean); // Remove any undefined values
+      if (profilesError) {
+        return new Response(JSON.stringify({ error: profilesError.message }), {
+          status: 500,
+        });
+      }
 
-      return {
-        bookmarked_user: bookmark.bookmarked_user,
-        bookmarked_at: bookmark.created_at,
-        profile: {
-          full_name: profile?.full_name || null,
-          profile_img: profile?.profile_img || null,
-          branch: profile?.branch || null,
-        },
-        exhibitions: exhibitions,
+      // Combine bookmark data with profile data
+      bookmarkedUsers = bookmarks.map(bookmark => {
+        const profile = profiles?.find(p => p.user_id === bookmark.bookmarked_user);
+        return {
+          user_id: bookmark.bookmarked_user,
+          bookmarked_at: bookmark.created_at,
+          profile: {
+            full_name: profile?.full_name || null,
+            profile_img: profile?.profile_img || null,
+            branch: profile?.branch || null,
+          }
+        };
+      });
+    }
+
+    // Prepare response based on what data we have
+    const response = {
+      message: "Bookmarks retrieved successfully",
+    };
+
+    // If user has both exhibitions and users bookmarked
+    if (bookmarkedExhibitions.length > 0 && bookmarkedUsers.length > 0) {
+      response.data = {
+        exhibitions: bookmarkedExhibitions,
+        users: bookmarkedUsers
       };
+      response.count = {
+        exhibitions: bookmarkedExhibitions.length,
+        users: bookmarkedUsers.length,
+        total: bookmarkedExhibitions.length + bookmarkedUsers.length
+      };
+    }
+    // If user has only bookmarked exhibitions
+    else if (bookmarkedExhibitions.length > 0) {
+      response.data = {
+        exhibitions: bookmarkedExhibitions
+      };
+      response.count = {
+        exhibitions: bookmarkedExhibitions.length,
+        total: bookmarkedExhibitions.length
+      };
+    }
+    // If user has only bookmarked users
+    else if (bookmarkedUsers.length > 0) {
+      response.data = {
+        users: bookmarkedUsers
+      };
+      response.count = {
+        users: bookmarkedUsers.length,
+        total: bookmarkedUsers.length
+      };
+    }
+    // If user has no bookmarks
+    else {
+      response.message = "No bookmarks found";
+      response.data = {};
+      response.count = { total: 0 };
+    }
+
+    return new Response(JSON.stringify(response), {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
     });
 
-    return new Response(
-      JSON.stringify({
-        message: "Bookmarks retrieved successfully",
-        count: result.length,
-        data: result,
-      }),
-      {
-        status: 200,
-        headers: { "Content-Type": "application/json" },
-      }
-    );
   } catch (err) {
     console.error("API Error:", err);
     return new Response(JSON.stringify({ error: "Internal server error" }), {
@@ -155,5 +153,3 @@ export async function GET(request) {
     });
   }
 }
-
-// Optional: POST method to add a bookmark

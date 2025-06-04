@@ -16,7 +16,11 @@ export default function UserPage() {
   const { uid } = useParams();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [searchOpen, setsearchOpen] = useState(false);
-  const [bookmarkData, setBookmarkData] = useState([]);
+  
+  // Separate state for users and exhibitions
+  const [bookmarkedUsers, setBookmarkedUsers] = useState([]);
+  const [bookmarkedExhibitions, setBookmarkedExhibitions] = useState([]);
+  
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -65,7 +69,18 @@ export default function UserPage() {
         if (!response.ok) {
           throw new Error(result.error || 'Failed to fetch bookmarks');
         }
-        setBookmarkData(result.data || []);
+
+        console.log('Bookmark data:', result.data);
+
+        // Handle the new backend response structure
+        if (result.data) {
+          setBookmarkedUsers(result.data.users || []);
+          setBookmarkedExhibitions(result.data.exhibitions || []);
+        } else {
+          setBookmarkedUsers([]);
+          setBookmarkedExhibitions([]);
+        }
+        
       } catch (err) {
         console.error('Error fetching bookmarks:', err);
         setError(err.message);
@@ -76,18 +91,6 @@ export default function UserPage() {
 
     fetchBookmarks();
   }, [uid]);
-
-  // Get all unique exhibitions from all bookmarked users
-  const allExhibitions = bookmarkData.reduce((acc, bookmark) => {
-    if (bookmark.exhibitions && bookmark.exhibitions.length > 0) {
-      bookmark.exhibitions.forEach(exhibition => {
-        if (exhibition && !acc.find(ex => ex.id === exhibition.id)) {
-          acc.push(exhibition);
-        }
-      });
-    }
-    return acc;
-  }, []);
 
   // Skeleton component for users
   const UserSkeleton = () => (
@@ -110,7 +113,6 @@ export default function UserPage() {
     </div>
   );
 
-  
   return (
     <>
       {/* Sidebar */}
@@ -139,7 +141,7 @@ export default function UserPage() {
       <div className="w-screen h-screen text-white flex flex-col ">
         {/* NAV */}
         <NavBar
-        uid={uid}
+          uid={uid}
           bookmark={true}
           profilepic={profileData.profilepic}
           setSidebarOpen={setSidebarOpen}
@@ -158,31 +160,31 @@ export default function UserPage() {
             </div>
           ) : error ? (
             <div className="mt-6 text-center text-red-400">Error: {error}</div>
-          ) : bookmarkData.length === 0 ? (
+          ) : bookmarkedUsers.length === 0 ? (
             <div className="mt-6 text-center opacity-60">No bookmarked users found</div>
           ) : (
             <div className="flex flex-col mt-8 gap-7">
-              {bookmarkData.map((bookmark, index) => (
-                <div key={`${bookmark.bookmarked_user}-${index}`} className="flex flex-row">
+              {bookmarkedUsers.map((user, index) => (
+                <div key={`${user.user_id}-${index}`} className="flex flex-row">
                   <div className="w-12 h-12 bg-amber-500 rounded-full overflow-hidden">
-                    {bookmark.profile.profile_img ? (
+                    {user.profile.profile_img ? (
                       <img 
-                        src={bookmark.profile.profile_img} 
-                        alt={bookmark.profile.full_name || 'User'} 
+                        src={user.profile.profile_img} 
+                        alt={user.profile.full_name || 'User'} 
                         className="w-full h-full object-cover"
                       />
                     ) : (
                       <div className="w-full h-full bg-amber-500 flex items-center justify-center text-white font-bold">
-                        {bookmark.profile.full_name ? bookmark.profile.full_name.charAt(0).toUpperCase() : 'U'}
+                        {user.profile.full_name ? user.profile.full_name.charAt(0).toUpperCase() : 'U'}
                       </div>
                     )}
                   </div>
                   <div className="flex flex-col ml-5">
                     <div className="text-lg">
-                      {bookmark.profile.full_name || 'Unknown User'}
+                      {user.profile.full_name || 'Unknown User'}
                     </div>
                     <div className="text-xs mt-1 opacity-40 font-bold">
-                      {bookmark.profile.branch || 'No branch specified'}
+                      {user.profile.branch || 'No branch specified'}
                     </div>
                   </div>
                 </div>
@@ -201,15 +203,18 @@ export default function UserPage() {
                 <ExhibitionSkeleton key={index} />
               ))}
             </div>
-          ) : allExhibitions.length === 0 ? (
+          ) : bookmarkedExhibitions.length === 0 ? (
             <div className="mt-6 text-center opacity-60">No bookmarked exhibitions found</div>
           ) : (
             <div className="flex flex-col mt-6 gap-5">
-              {allExhibitions.map((exhibition, index) => (
-                <a href={`/dashboard/user/${uid}/events/${exhibition.id}`} key={`${exhibition.id}-${index}`} className="flex flex-row">
+              {bookmarkedExhibitions.map((exhibition, index) => (
+                <a 
+                  href={`/dashboard/user/${uid}/events/${exhibition.id}`} 
+                  key={`${exhibition.id}-${index}`} 
+                  className="flex flex-row hover:opacity-80 transition-opacity"
+                >
                   <div className="flex flex-col">
                     <div className="text-lg">
-                      
                       {exhibition.title || 'Untitled Exhibition'}
                     </div>
                     <div className="text-xs mt-1 opacity-40 font-bold">
@@ -221,6 +226,7 @@ export default function UserPage() {
             </div>
           )}
         </div>
+        
         <footer className="mt-auto py-4 bg-transparent ">
           <div className="text-center text-gray-400 text-sm">
             © {new Date().getFullYear()} CIA Labs

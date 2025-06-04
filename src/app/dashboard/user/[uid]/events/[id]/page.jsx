@@ -10,16 +10,15 @@ import SideBar from "@dashboard/SideBar";
 import MarkdownRenderer from "@/components/ui/MarkdownRenderer";
 import { createClient } from "@/utils/supabase/client";
 import {
-  Check,
+  
   CheckCheck,
   ExternalLink,
-  Star,
-  ThumbsUp,
+
   User,
 } from "lucide-react";
 import { MyImage } from "@/components/Image/Image";
 import {
-  BookmarkAdd,
+  
   GitHub,
   Instagram,
   LinkedIn,
@@ -338,7 +337,7 @@ export default function UserPage() {
         <div className="px-7">
           {Text ? (
             <>
-              <div className="w-full h-[27vh] rounded-[7px] mt-8 flex items-center justify-center overflow-hidden relative bg-gray-200/20">
+              <div className="w-full h-[27vh] rounded-[7px] mt-12 flex items-center justify-center overflow-hidden relative bg-gray-200/20">
                 {eventData.image_url ? (
                   <>
                     {/* Show skeleton while image loads */}
@@ -348,8 +347,7 @@ export default function UserPage() {
 
                     {/* Image - always rendered but with opacity control */}
                     <MyImage
-                      w={380}
-                      h={0}
+                      fill
                       src={eventData.image_url}
                       alt={eventData.title}
                       onLoad={() => setImageLoaded(true)}

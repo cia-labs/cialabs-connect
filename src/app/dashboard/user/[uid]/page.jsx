@@ -142,7 +142,7 @@ useEffect(() => {
     {/* Action Button */}
     <GetQrScanQrBTN uid={uid} />
 
-    <div className="w-screen h-screen text-white flex flex-col mt-6">
+    <div className="w-screen h-screen text-white flex flex-col ">
       {/* NAV */}
       <NavBar uid={uid} profilepic={profileData.profilepic} setSidebarOpen={setSidebarOpen} setsearchOpen={setsearchOpen} />
 
