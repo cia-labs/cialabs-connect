@@ -35,26 +35,26 @@ const interests = [
 
 // Create mapping from interest name to ID
 const interestMap = {
-  Music: 1, // Not in CSV, assuming ID 1
-  Sports: 2,
-  Travel: 3,
-  Reading: 4,
-  Movies: 5,
-  Technology: 6,
-  Gaming: 7,
-  Cooking: 8,
-  Fitness: 9,
-  Photography: 10,
-  Art: 11,
-  Dancing: 12,
-  Writing: 13,
-  Fashion: 14,
-  Gardening: 15,
-  Volunteering: 16,
-  DIY: 17,
-  Pets: 18,
-  Science: 19,
-  Finance: 20,
+  Coding: 1, // Not in CSV, assuming ID 1
+  Startups: 2,
+  Gaming: 3,
+  Robotics: 4,
+  AI: 5,
+  Design: 6,
+  Music: 7,
+  Fitness: 8,
+  Trekking: 9,
+  Finance: 10,
+  Anime: 11,
+  Blogging: 12,
+  Photography: 13,
+  Hacking: 14,
+  Cars: 15,
+  Space: 16,
+  Investing: 17,
+  Crypto: 18,
+  Gadgets: 19,
+  Writing: 20,
 };
 
 // Skeleton Components
