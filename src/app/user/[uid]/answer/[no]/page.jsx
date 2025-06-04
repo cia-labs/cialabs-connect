@@ -9,29 +9,29 @@ import NavBar from "@dashboard/NavBar";
 import SideBar from "@dashboard/SideBar";
 import { MultiSelectComboBox } from "@/components/ui/ComboBox";
 import { BookmarkAdd, Dashboard } from "@mui/icons-material";
-
 const interests = [
-  "Music",
-  "Sports",
-  "Travel",
-  "Reading",
-  "Movies",
-  "Technology",
+  "Coding",
+  "Startups",
   "Gaming",
-  "Cooking",
+  "Robotics",
+  "AI",
+  "Design",
+  "Music",
   "Fitness",
-  "Photography",
-  "Art",
-  "Dancing",
-  "Writing",
-  "Fashion",
-  "Gardening",
-  "Volunteering",
-  "DIY",
-  "Pets",
-  "Science",
+  "Trekking",
   "Finance",
+  "Anime",
+  "Blogging",
+  "Photography",
+  "Hacking",
+  "Cars",
+  "Space",
+  "Investing",
+  "Crypto",
+  "Gadgets",
+  "Writing"
 ];
+
 
 // Create mapping from interest name to ID
 const interestMap = {

@@ -7,27 +7,28 @@ import { MultiSelectComboBox } from "@/components/ui/ComboBox";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/utils/supabase/client";
 const interests = [
-  "Music",
-  "Sports",
-  "Travel",
-  "Reading",
-  "Movies",
-  "Technology",
+  "Coding",
+  "Startups",
   "Gaming",
-  "Cooking",
+  "Robotics",
+  "AI",
+  "Design",
+  "Music",
   "Fitness",
-  "Photography",
-  "Art",
-  "Dancing",
-  "Writing",
-  "Fashion",
-  "Gardening",
-  "Volunteering",
-  "DIY",
-  "Pets",
-  "Science",
+  "Trekking",
   "Finance",
+  "Anime",
+  "Blogging",
+  "Photography",
+  "Hacking",
+  "Cars",
+  "Space",
+  "Investing",
+  "Crypto",
+  "Gadgets",
+  "Writing"
 ];
+
 
 export default function page() {
   const router = useRouter();

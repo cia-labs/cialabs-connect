@@ -7,7 +7,7 @@ import {ComboBox} from "@/components/ui/ComboBox";
 import { useRouter } from "next/navigation";
 
 
-const fruits = ["CSE", "EC", "MECH", "CIVIL", "ISE", "ECE"];
+const fruits = ["CSE", "EC", "MECH", "CIVIL", "ISE", "ECE", "MBA", "Guest", "Life Sciences", "Energy Scieneces" , "Digital Transformation", "E-Mobility"];
 
 
 export default function page() {
