@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import { createClient } from "@supabase/supabase-js";
 import Leaderboard from "../../components/RoboLeaderboard";
 
-// Initialize Supabase client with validation
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "";
 
@@ -28,7 +27,6 @@ const LeaderboardPage = () => {
           table: "teams",
         },
         (payload) => {
-          console.log("Teams table update detected:", payload);
           fetchTeams();
         }
       )
@@ -103,14 +101,11 @@ const LeaderboardPage = () => {
         participants: team.participants || [],
       }));
 
-      console.log("Transformed teams with participants:", transformedTeams);
-
       setTeams(transformedTeams);
       setError(null);
     } catch (err) {
       const errorMessage =
         err?.message || err?.toString() || "Unknown error occurred";
-      console.error("Error fetching teams:", err);
       setError(errorMessage);
     } finally {
       setIsLoading(false);

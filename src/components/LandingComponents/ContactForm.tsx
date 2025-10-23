@@ -114,7 +114,7 @@ const ContactForm: React.FC = () => {
 
   return (
     <>
-      <div className="bg-black">
+      <div className="bg-black mt-8">
         <DirectionalTextAnimation texts={textsToAnimate} />
 
         {/* Contact Form */}
