@@ -58,7 +58,7 @@ const LoadingPage = () => {
         
         {/* Enhanced Text Content */}
         <div className="text-center max-w-4xl mx-auto w-full px-4">
-          <div className="text-lg md:text-xl lg:text-2xl text-gray-300 mb-4 leading-relaxed">
+          <div className="text-xl md:text-xl lg:text-2xl text-gray-300 leading-relaxed">
             <span className="text-white font-medium">{staticText}</span>
           </div>
           
@@ -71,7 +71,7 @@ const LoadingPage = () => {
           </div>
           
           {/* Enhanced CTA Button */}
-          <button className="bg-[#23e986] hover:bg-[#1cd178] text-black font-semibold rounded-full px-8 py-4 mt-8 md:mt-10 transform hover:scale-105 transition-all duration-300 shadow-lg shadow-green-500/25">
+          <button className="bg-black hover:bg-[#1cd178] text-white font-semibold rounded-full px-8 py-4 mt-8 md:mt-10 transform hover:scale-105 transition-all duration-300 shadow-lg shadow-green-500/45">
             Explore our events
           </button>
         </div>
