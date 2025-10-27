@@ -1,0 +1,336 @@
+"use client";
+
+import React, { useEffect, useState } from "react";
+import { createClient } from "@supabase/supabase-js";
+
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "";
+
+const supabase = createClient(supabaseUrl, supabaseKey);
+
+const Leaderboard = () => {
+  const [teams, setTeams] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    fetchLeaderboardData();
+
+    const subscription = supabase
+      .channel("leaderboard-updates")
+      .on(
+        "postgres_changes",
+        {
+          event: "*", 
+          schema: "public",
+          table: "leaderboard",
+        },
+        (payload) => {
+          fetchLeaderboardData();
+        }
+      )
+      .subscribe();
+
+    // Cleanup subscription on unmount
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, []);
+
+  const fetchLeaderboardData = async () => {
+    try {
+      setIsLoading(true);
+      if (!supabaseUrl || !supabaseKey) {
+        throw new Error(
+          "Supabase environment variables are missing. Check your .env.local file."
+        );
+      }
+
+      // Fetch teams with their participants and leaderboard data
+      const { data, error } = await supabase
+        .from("teams")
+        .select(`
+          id, 
+          team_name, 
+          team_size,
+          participants (
+            name
+          ),
+          leaderboard!team_id (
+            matches_played,
+            points
+          )
+        `);
+
+      if (error) {
+        throw new Error(
+          error.message || `Supabase error: ${JSON.stringify(error)}`
+        );
+      }
+
+      if (!data || data.length === 0) {
+        setTeams([]);
+        setError(null);
+        return;
+      }
+
+      // Transform data - leaderboard is an array, so get first element
+      const transformedTeams = data.map((team) => {
+        // Handle leaderboard as array (one-to-many) or object (one-to-one)
+        const leaderboardData = Array.isArray(team.leaderboard)
+          ? team.leaderboard[0]
+          : team.leaderboard;
+
+        return {
+          id: team.id,
+          team_name: team.team_name,
+          team_size: team.team_size,
+          matchesPlayed: leaderboardData?.matches_played || 0,
+          points: leaderboardData?.points || 0,
+          participants: team.participants || [],
+        };
+      });
+
+      setTeams(transformedTeams);
+      setError(null);
+    } catch (err) {
+      const errorMessage =
+        err?.message || err?.toString() || "Unknown error occurred";
+      setError(errorMessage);
+      console.error("Error fetching leaderboard:", err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const sortedTeams = teams
+    ? [...teams].sort((a, b) => {
+        // (descending - higher points first)
+        if (b.points !== a.points) {
+          return b.points - a.points;
+        }
+
+        // (ascending - fewer matches first)
+        if (a.matchesPlayed !== b.matchesPlayed) {
+          return a.matchesPlayed - b.matchesPlayed;
+        }
+
+        // (ascending)
+        return a.team_name.localeCompare(b.team_name);
+      })
+    : [];
+
+  const getRankBadge = (rank) => {
+    const baseClasses =
+      "flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-full font-bold text-xs sm:text-sm";
+
+    switch (rank) {
+      case 1:
+        return `${baseClasses} bg-yellow-500 text-black shadow-lg shadow-yellow-500/30`;
+      case 2:
+        return `${baseClasses} bg-gray-300 text-black shadow-lg shadow-gray-300/30`;
+      case 3:
+        return `${baseClasses} bg-orange-600 text-white shadow-lg shadow-orange-600/30`;
+      default:
+        return `${baseClasses} bg-gray-600 text-white`;
+    }
+  };
+
+  const getRankIcon = (rank) => {
+    switch (rank) {
+      case 1:
+        return "🏆";
+      case 2:
+        return "🥈";
+      case 3:
+        return "🥉";
+      default:
+        return rank;
+    }
+  };
+
+  // Function to format participant names for display
+  const formatParticipantNames = (participants) => {
+    if (!participants || participants.length === 0) {
+      return "No participants";
+    }
+
+    if (participants.length <= 5) {
+      return participants.map((p) => p.name).join(", ");
+    }
+  };
+
+  if (isLoading) {
+    return (
+      <div className="w-full max-w-4xl mx-auto bg-gray-900 rounded-lg shadow-2xl overflow-hidden p-4 sm:p-8">
+        <div className="text-center text-gray-400">
+          <div className="animate-pulse text-base sm:text-lg">
+            Loading leaderboard...
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="w-full max-w-4xl mx-auto bg-gray-900 rounded-lg shadow-2xl overflow-hidden p-4 sm:p-8">
+        <div className="text-center">
+          <p className="text-red-400 text-base sm:text-lg mb-4">
+            Error loading leaderboard
+          </p>
+          <p className="text-gray-400 text-xs sm:text-sm mb-6">{error}</p>
+          <button
+            onClick={fetchLeaderboardData}
+            className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 sm:px-6 rounded transition-colors text-sm sm:text-base"
+          >
+            Retry
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="w-full max-w-4xl mx-auto bg-gray-900 rounded-lg shadow-2xl overflow-hidden">
+      {/* Header */}
+      <div className="bg-gray-800 border-b border-gray-700 text-white p-4 sm:p-6">
+        <h2 className="text-lg sm:text-2xl font-semibold text-center">
+          Robo-Soccer
+        </h2>
+        <h1 className="text-2xl sm:text-4xl font-bold text-center">
+          Leaderboard
+        </h1>
+      </div>
+
+      {/* Desktop Table Header - Hidden on mobile */}
+      <div className="hidden sm:block bg-gray-800 border-b border-gray-700">
+        <div className="flex items-center py-4 px-6 font-semibold text-gray-300">
+          <div className="w-16 text-center">Rank</div>
+          <div className="flex-1 ml-4">Team Name</div>
+          <div className="w-32 text-center">Matches</div>
+          <div className="w-32 text-center">Points</div>
+        </div>
+      </div>
+
+      {/* Team Rows */}
+      <div className="divide-y divide-gray-700">
+        {sortedTeams.length === 0 ? (
+          <div className="p-4 sm:p-8 text-center text-gray-400">
+            <p className="text-base sm:text-lg">No teams available</p>
+            <p className="text-xs sm:text-sm mt-2">
+              Add teams to see the leaderboard
+            </p>
+          </div>
+        ) : (
+          sortedTeams.map((team, index) => {
+            const rank = index + 1;
+
+            return (
+              <div
+                key={team.id}
+                className={`
+                  py-4 px-4 sm:px-6 hover:bg-gray-800 transition-colors duration-200
+                  ${
+                    rank <= 3
+                      ? "bg-gradient-to-r from-yellow-900/20 to-transparent"
+                      : ""
+                  }
+                `}
+              >
+                {/* Mobile Layout */}
+                <div className="block sm:hidden">
+                  <div className="flex items-start space-x-3 mb-3">
+                    {/* Rank Badge */}
+                    <div className="flex-shrink-0">
+                      <div className={getRankBadge(rank)}>
+                        {getRankIcon(rank)}
+                      </div>
+                    </div>
+
+                    {/* Team Info */}
+                    <div className="flex-1 min-w-0">
+                      <h3 className="font-semibold text-white text-base truncate">
+                        {team.team_name}
+                      </h3>
+                      <p className="text-xs text-gray-400 mt-1 line-clamp-2">
+                        {formatParticipantNames(team.participants)}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Stats Row */}
+                  <div className="flex justify-between items-center bg-gray-800 rounded-lg p-3 mt-2">
+                    <div className="text-center flex-1">
+                      <div className="font-semibold text-white text-sm">
+                        {team.matchesPlayed}
+                      </div>
+                      <div className="text-xs text-gray-400">matches</div>
+                    </div>
+                    <div className="w-px h-8 bg-gray-600 mx-2"></div>
+                    <div className="text-center flex-1">
+                      <div className="font-bold text-white text-lg">
+                        {team.points}
+                      </div>
+                      <div className="text-xs text-gray-400">points</div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Desktop Layout */}
+                <div className="hidden sm:flex items-center">
+                  {/* Rank Badge */}
+                  <div className="w-16 flex justify-center">
+                    <div className={getRankBadge(rank)}>
+                      {getRankIcon(rank)}
+                    </div>
+                  </div>
+
+                  {/* Team Name and Participants */}
+                  <div className="flex-1 ml-4">
+                    <h3 className="font-semibold text-white text-lg">
+                      {team.team_name}
+                    </h3>
+                    <p className="text-sm text-gray-400 mt-1">
+                      {formatParticipantNames(team.participants)}
+                    </p>
+                  </div>
+
+                  {/* Matches Played */}
+                  <div className="w-32 text-center">
+                    <div className="font-semibold text-white text-lg">
+                      {team.matchesPlayed}
+                    </div>
+                    <div className="text-xs text-gray-400">matches</div>
+                  </div>
+
+                  {/* Points */}
+                  <div className="w-32 text-center">
+                    <div className="font-bold text-xl text-white">
+                      {team.points}
+                    </div>
+                    <div className="text-xs text-gray-400">points</div>
+                  </div>
+                </div>
+              </div>
+            );
+          })
+        )}
+      </div>
+
+      {/* Footer Stats */}
+      {sortedTeams.length > 0 && (
+        <div className="bg-gray-800 p-4 border-t border-gray-700">
+          <div className="flex justify-center">
+            <span className="text-xs sm:text-sm text-gray-400">
+              <strong className="text-white">{sortedTeams.length}</strong>{" "}
+              Teams
+            </span>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default Leaderboard;
