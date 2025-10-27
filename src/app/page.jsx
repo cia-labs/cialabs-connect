@@ -4,9 +4,7 @@ import Image from "next/image";
 import React from "react";
 
 export default function Home() {
-  useEffect(() => {
-    window.location.replace("https://cialabs.org");
-  }, []);
+
 
   return (
     <div className="flex items-center justify-center w-screen h-screen  flex-col px-4 bg-[var(--bg-color)]">
@@ -16,7 +14,7 @@ export default function Home() {
             <Image src={"/LOGO.png"} width={60} height={60} alt="logo " />
           </div>
           <h1 className=" text-xl">
-            CIA <b>Labs</b> 
+            CIA <b>Labs</b> Dev Branch
           </h1>
         </a>
       </nav>
