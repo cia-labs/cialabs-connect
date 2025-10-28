@@ -2,10 +2,10 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { FaSearch, FaTimes, FaUser, FaBars } from "react-icons/fa";
+import {  FaTimes, FaBars } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
 
-const NavBar = () => {
+export function NavBar() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     // Animation variants for the mobile menu container
@@ -94,4 +94,3 @@ const NavBar = () => {
     );
 };
 
-export default NavBar;
