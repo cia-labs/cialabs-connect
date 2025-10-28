@@ -1,5 +1,5 @@
 "use client";
-import NavBar from "@/components/LandingComponents/NavBar";
+import {NavBar} from "@/components/LandingComponents/NavBar";
 import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
 import { useRef } from "react";

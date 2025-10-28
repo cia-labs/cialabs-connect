@@ -1,9 +1,11 @@
 import React from 'react'
+
 import UpcomingEvents from '@/components/LandingComponents/upcomingEvents';
 const page = () => {
   return (
-      <UpcomingEvents/>
-  )
+      <UpcomingEvents />
+
+  );
 }
 
 export default page
