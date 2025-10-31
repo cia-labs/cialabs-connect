@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { createClient } from "@supabase/supabase-js";
+import { useRouter } from "next/navigation";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "";
@@ -12,44 +13,95 @@ const Leaderboard = () => {
   const [teams, setTeams] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const router = useRouter();
+  const isInitialLoad = useRef(true);
 
   useEffect(() => {
     fetchLeaderboardData();
 
-    const subscription = supabase
-      .channel("leaderboard-updates")
+    // Try to set up realtime subscriptions
+    const leaderboardSubscription = supabase
+      .channel("public:leaderboard")
       .on(
         "postgres_changes",
         {
-          event: "*", 
+          event: "*",
           schema: "public",
           table: "leaderboard",
         },
         (payload) => {
+          console.log("Leaderboard change detected:", payload);
           fetchLeaderboardData();
         }
       )
-      .subscribe();
+      .subscribe((status) => {
+        console.log("Leaderboard subscription status:", status);
+      });
 
-    // Cleanup subscription on unmount
+    const teamsSubscription = supabase
+      .channel("public:teams")
+      .on(
+        "postgres_changes",
+        {
+          event: "*",
+          schema: "public",
+          table: "teams",
+        },
+        (payload) => {
+          console.log("Teams change detected:", payload);
+          fetchLeaderboardData();
+        }
+      )
+      .subscribe((status) => {
+        console.log("Teams subscription status:", status);
+      });
+
+    const participantsSubscription = supabase
+      .channel("public:participants")
+      .on(
+        "postgres_changes",
+        {
+          event: "*",
+          schema: "public",
+          table: "participants",
+        },
+        (payload) => {
+          console.log("Participants change detected:", payload);
+          fetchLeaderboardData();
+        }
+      )
+      .subscribe((status) => {
+        console.log("Participants subscription status:", status);
+      });
+
+    // Fallback: Poll every 5 seconds
+    const pollInterval = setInterval(() => {
+      fetchLeaderboardData();
+    }, 5000);
+
+    // Cleanup
     return () => {
-      subscription.unsubscribe();
+      leaderboardSubscription.unsubscribe();
+      teamsSubscription.unsubscribe();
+      participantsSubscription.unsubscribe();
+      clearInterval(pollInterval);
     };
   }, []);
 
   const fetchLeaderboardData = async () => {
     try {
-      setIsLoading(true);
+      // Only show loading spinner on initial load
+      if (isInitialLoad.current) {
+        setIsLoading(true);
+      }
+
       if (!supabaseUrl || !supabaseKey) {
         throw new Error(
           "Supabase environment variables are missing. Check your .env.local file."
         );
       }
 
-      // Fetch teams with their participants and leaderboard data
-      const { data, error } = await supabase
-        .from("teams")
-        .select(`
+      const { data, error } = await supabase.from("teams").select(`
           id, 
           team_name, 
           team_size,
@@ -71,12 +123,15 @@ const Leaderboard = () => {
       if (!data || data.length === 0) {
         setTeams([]);
         setError(null);
+        // Mark initial load as complete even if no data
+        if (isInitialLoad.current) {
+          isInitialLoad.current = false;
+          setIsLoading(false);
+        }
         return;
       }
 
-      // Transform data - leaderboard is an array, so get first element
       const transformedTeams = data.map((team) => {
-        // Handle leaderboard as array (one-to-many) or object (one-to-one)
         const leaderboardData = Array.isArray(team.leaderboard)
           ? team.leaderboard[0]
           : team.leaderboard;
@@ -93,29 +148,34 @@ const Leaderboard = () => {
 
       setTeams(transformedTeams);
       setError(null);
+
+      // Mark initial load as complete
+      if (isInitialLoad.current) {
+        isInitialLoad.current = false;
+        setIsLoading(false);
+      }
     } catch (err) {
       const errorMessage =
         err?.message || err?.toString() || "Unknown error occurred";
       setError(errorMessage);
       console.error("Error fetching leaderboard:", err);
-    } finally {
-      setIsLoading(false);
+      
+      // Mark initial load as complete even on error
+      if (isInitialLoad.current) {
+        isInitialLoad.current = false;
+        setIsLoading(false);
+      }
     }
   };
 
   const sortedTeams = teams
     ? [...teams].sort((a, b) => {
-        // (descending - higher points first)
         if (b.points !== a.points) {
           return b.points - a.points;
         }
-
-        // (ascending - fewer matches first)
         if (a.matchesPlayed !== b.matchesPlayed) {
           return a.matchesPlayed - b.matchesPlayed;
         }
-
-        // (ascending)
         return a.team_name.localeCompare(b.team_name);
       })
     : [];
@@ -149,7 +209,6 @@ const Leaderboard = () => {
     }
   };
 
-  // Function to format participant names for display
   const formatParticipantNames = (participants) => {
     if (!participants || participants.length === 0) {
       return "No participants";
@@ -195,6 +254,29 @@ const Leaderboard = () => {
     <div className="w-full max-w-4xl mx-auto bg-gray-900 rounded-lg shadow-2xl overflow-hidden">
       {/* Header */}
       <div className="bg-gray-800 border-b border-gray-700 text-white p-4 sm:p-6">
+        <div className="flex items-center justify-between mb-2">
+          <button
+            onClick={() => router.back()}
+            className="text-white hover:text-gray-300 transition-colors flex items-center"
+            aria-label="Go back"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M15 19l-7-7 7-7"
+              />
+            </svg>
+            <span className="ml-2 text-sm sm:text-base">Back</span>
+          </button>
+        </div>
         <h2 className="text-lg sm:text-2xl font-semibold text-center">
           Robo-Soccer
         </h2>
@@ -241,14 +323,12 @@ const Leaderboard = () => {
                 {/* Mobile Layout */}
                 <div className="block sm:hidden">
                   <div className="flex items-start space-x-3 mb-3">
-                    {/* Rank Badge */}
                     <div className="flex-shrink-0">
                       <div className={getRankBadge(rank)}>
                         {getRankIcon(rank)}
                       </div>
                     </div>
 
-                    {/* Team Info */}
                     <div className="flex-1 min-w-0">
                       <h3 className="font-semibold text-white text-base truncate">
                         {team.team_name}
@@ -259,7 +339,6 @@ const Leaderboard = () => {
                     </div>
                   </div>
 
-                  {/* Stats Row */}
                   <div className="flex justify-between items-center bg-gray-800 rounded-lg p-3 mt-2">
                     <div className="text-center flex-1">
                       <div className="font-semibold text-white text-sm">
@@ -279,14 +358,12 @@ const Leaderboard = () => {
 
                 {/* Desktop Layout */}
                 <div className="hidden sm:flex items-center">
-                  {/* Rank Badge */}
                   <div className="w-16 flex justify-center">
                     <div className={getRankBadge(rank)}>
                       {getRankIcon(rank)}
                     </div>
                   </div>
 
-                  {/* Team Name and Participants */}
                   <div className="flex-1 ml-4">
                     <h3 className="font-semibold text-white text-lg">
                       {team.team_name}
@@ -296,7 +373,6 @@ const Leaderboard = () => {
                     </p>
                   </div>
 
-                  {/* Matches Played */}
                   <div className="w-32 text-center">
                     <div className="font-semibold text-white text-lg">
                       {team.matchesPlayed}
@@ -304,7 +380,6 @@ const Leaderboard = () => {
                     <div className="text-xs text-gray-400">matches</div>
                   </div>
 
-                  {/* Points */}
                   <div className="w-32 text-center">
                     <div className="font-bold text-xl text-white">
                       {team.points}

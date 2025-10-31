@@ -83,9 +83,9 @@ export function NavBar() {
                     >
                         <div className="flex flex-col space-y-6">
                             <motion.a variants={menuItemVariants} href="#" className="text-white hover:text-green-400 transition-colors">Home</motion.a>
-                            <motion.a variants={menuItemVariants} href="#" className="text-white hover:text-green-400 transition-colors">About</motion.a>
-                            <motion.a variants={menuItemVariants} href="#" className="text-white hover:text-green-400 transition-colors">Upcoming Events</motion.a>
-                            <motion.a variants={menuItemVariants} href="#" className="text-white hover:text-green-400 transition-colors">Contact Us</motion.a>
+                            <motion.a variants={menuItemVariants} href="/about" className="text-white hover:text-green-400 transition-colors">About</motion.a>
+                            <motion.a variants={menuItemVariants} href="/upcoming-events" className="text-white hover:text-green-400 transition-colors">Upcoming Events</motion.a>
+                            <motion.a variants={menuItemVariants} href="/contactus" className="text-white hover:text-green-400 transition-colors">Contact Us</motion.a>
                         </div>
                     </motion.div>
                 )}
