@@ -1,3 +1,4 @@
+'use client'
 import React, { useState } from "react";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
