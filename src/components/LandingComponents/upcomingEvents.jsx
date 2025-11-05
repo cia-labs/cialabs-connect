@@ -39,21 +39,20 @@ const events = [
 
 
 const teamMembers = [
-  { name: "Valyrian", role: "Unleash the Valyrian Fury!", image: "/1.jpg" },
-  { name: "BotBowlers", role: "Code, Kick, Conquer", image: "/2.jpg" },
-  { name: "404 Not Found", role: "When the code meets the goal", image: "/3.jpg" },
-  { name: "Robo United", role: "Glory Glory Robo Utd", image: "/4.jpg" },
-  { name: "Mech-X4!", role: "If You Never Accept the Frustration of Losing, You'll Never Grow.", image: "/5.jpg" },
-  { name: "Robrawler", role: "तेज और उग्र", image: "/6.jpg" },
-  { name: "Tech Titans", role: "Together towards tomorrow", image: "/7.jpg" },
-  { name: "Diya", role: "Marketing Head", image: "/2.jpg" },
-  { name: "Nikhil", role: "Frontend Developer", image: "/3.jpg" },
-  { name: "Sara", role: "ML Researcher", image: "/4.jpg" },
-  { name: "Arjun", role: "Robotics Engineer", image: "/5.jpg" },
-  { name: "Neha", role: "Project Manager", image: "/6.jpg" },
-  { name: "Kabir", role: "Game Developer", image: "/7.jpg" },
-  { name: "Meera", role: "Content Strategist", image: "/6.jpg" },
-];
+  { name: "Valyrian", role: "Nothing cuts like Valryian's grace!", image: "/valerian.jpg" },
+  { name: "BotBowlers", role: "Code, Kick, Conquer", image: "/hero_img.jpg" },
+  { name: "404 Not Found", role: "When the code meets the goal", image: "/hero_img.jpg" },
+  { name: "Robo United", role: "Glory Glory Robo Utd", image: "/robounited.jpg" },
+  { name: "Mech-X4!", role: "If You Never Accept the Frustration of Losing, You'll Never Grow.", image: "/mechX4.jpg" },
+  { name: "Robrawler", role: "तेज और उग्र", image: "/hero_img.jpg" },
+  { name: "The Innovators ", role: "WE WILL BE BACK", image: "/hero_img.jpg" },
+  { name: "Robo Rangers", role: "Tomorrow by Together ", image: "/hero_img.jpg" },
+  { name: "Survivors", role: "will show whats winning feels like", image: "/hero_img.jpg" },
+   { name: "Victory squad ", role: "Hello World", image: "/hero_img.jpg" }, 
+   { name: "RoboQuad", role: "You should  quit one day", image: "/hero_img.jpg" },
+   { name: "Tech Titans", role: " Together  towards Tomorrow", image: "/techtitans.jpg" },
+  
+ ];
 
 
 const UpcomingEvents = () => {
