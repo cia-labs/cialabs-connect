@@ -278,10 +278,10 @@ const Leaderboard = () => {
           </button>
         </div>
         <h2 className="text-lg sm:text-2xl font-semibold text-center">
-          Robo-Soccer
+          RoBo-Arena
         </h2>
         <h1 className="text-2xl sm:text-4xl font-bold text-center">
-          Leaderboard
+          Wall of Fame
         </h1>
       </div>
 
@@ -409,3 +409,5 @@ const Leaderboard = () => {
 };
 
 export default Leaderboard;
+
+
