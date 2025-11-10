@@ -14,12 +14,11 @@ const projects = [
     buttonStyle: "bg-green-500 hover:bg-green-600 text-black",
     details: {
       about:
-        "CIT (Campus Innovation Tournament) 2025 brought together young innovators to present cutting-edge projects that solve real-world challenges through technology. The event highlighted creativity, design thinking, and teamwork.",
+        "CIT  2025 brought together young innovators to present cutting-edge projects that solve real-world challenges through technology. The event highlighted creativity, design thinking, and teamwork.",
       highlights: [
-        "Top 20 teams shortlisted for live presentation",
-        "Judging based on innovation, impact, and feasibility",
-        "Workshops on pitching and product design",
-        "Winners received mentorship opportunities at CIA LABS",
+        "Our Team reached Semi-Finals!",
+        "Judging was based on innovation, impact, and feasibility",
+    
       ],
       note: "CIT was not just a competition — it was a platform to turn ideas into impact.",
     },
@@ -36,10 +35,10 @@ const projects = [
       about:
         "Community Day 1 marked the beginning of the CIA LABS community events — bringing students, mentors, and creators together to celebrate innovation and learning. From workshops to fun challenges, it was an unforgettable start to a new tradition.",
       highlights: [
-        "Interactive robotics and coding sessions",
-        "Team showcase of ongoing CIA LABS projects",
-        "Networking with mentors and peers",
-        "Fun activities and live demos",
+        "Interactive Clubs Activities and Cultural Performances",
+        "Team showcase of ongoing projects",
+        "We've Build Trebuchet Catapult ,6 total teams played mactches with each other",
+        "Fun activities and live Connection building App ,Student got to know each other better",
       ],
       note: "Community Day 1 reminded everyone that innovation thrives in collaboration.",
     },
@@ -48,20 +47,17 @@ const projects = [
     id: 3,
     subtitle: "ENGINEER. DEVELOP. INNOVATE.",
     title: "EDITH 1",
-    tag: "Engineering Development & Innovation Tech Hack",
-    desc: "A fast-paced hackathon where creativity meets technical mastery to solve impactful real-world problems.",
+    tag: "Explore . Design . Innovate . Tinker . Hack",
+    desc: "",
     buttonText: "View Details",
     buttonStyle: "bg-green-500 hover:bg-green-600 text-black",
     details: {
       about:
-        "EDITH 1 was CIA LABS’ first major hackathon, testing the participants’ ability to engineer, design, and innovate solutions under pressure. With 24 hours of non-stop development, teams built prototypes that impressed judges and inspired peers.",
+        "E.D.I.T.H. 1 was in collaboration with CIA LABS’ ",
       highlights: [
-        "24-hour innovation marathon",
-        "Tracks across AI, robotics, and sustainability",
-        "Panel of expert judges from academia and industry",
-        "Grand prize for the most impactful and feasible prototype",
-      ],
-      note: "EDITH 1 was more than a hackathon — it was a proving ground for future engineers and innovators.",
+        "E.D.I.T.H 1.0 is a one-day tech fest designed to spark creativity and innovation in the fields of Robotics, IoT, and Embedded Systems. The event unites students, enthusiasts, and experts through a blend of learning sessions, hands-on challenges, and competitive activities. ",
+        ],
+      note: "From learning to building to competing, E.D.I.T.H 1.0 celebrates innovation, teamwork, and the future of intelligent systems. ",
     },
   },
 ];
