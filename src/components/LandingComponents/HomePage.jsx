@@ -3,12 +3,12 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import LoadingPage from './LoadingPage';
 import ShortsHighlightsView from './Shorts_view';
-import {NavBar} from './NavBar';
+import { NavBar } from './NavBar';
 
 const staticText = "Together, we are here to build...";
 const dynamicTexts = [
   "the next generation of technology.",
-  "solutions that challenge the status quo.", 
+  "solutions that challenge the status quo.",
   "a culture of fearless innovation.",
   "bridges between brilliant ideas and reality.",
   "the skills that will define tomorrow.",
@@ -53,37 +53,56 @@ const HomePage = () => {
     return () => clearInterval(typingInterval);
   }, [textIndex, isLoading]);
 
-  // Show loader until finished
   if (isLoading) {
     return <LoadingPage />;
   }
 
-  // Main homepage content
   return (
     <div className="bg-black min-h-screen">
-      <NavBar/>
+      <NavBar />
       <div className="pt-20 md:pt-24 min-h-screen flex flex-col items-center justify-center px-4 sm:px-6">
         <div className="w-full max-w-md mx-auto mb-6 md:mb-10 px-4">
-          <img 
-            className="w-full h-auto transform hover:scale-105 transition-transform duration-500" 
-            src="/hero_img.jpg" 
+          <img
+            className="w-full h-auto transform hover:scale-105 transition-transform duration-500"
+            src="/hero_img.jpg"
             alt="CIA Labs"
           />
         </div>
+
         <div className="text-center max-w-4xl mx-auto w-full px-4">
           <div className="text-2xl md:text-xl lg:text-2xl text-gray-300 leading-relaxed">
             <span className="text-white font-medium">{staticText}</span>
           </div>
+
           <div className="text-md md:text-xl lg:text-2xl text-[#77FAB9]/80 font-semibold min-h-[3rem] md:min-h-[2rem] flex items-center justify-center">
             <span className="text-center leading-tight">
               {changingText}
               <span className="animate-pulse ml-1">|</span>
             </span>
           </div>
-          <Link href="/upcoming-events"><button className="bg-black border-2 hover:border-[#73daa6] text-white font-semibold rounded-3xl px-8 py-4 mt-8 md:mt-10 transform hover:scale-105 transition-all duration-300 shadow-lg shadow-green-500/45">
-            Explore our events
-          </button></Link>
+
+          {/* ✅ Mobile-friendly buttons layout */}
+          <div className="flex flex-col md:flex-row justify-center items-center mt-8 md:mt-10 space-y-4 md:space-y-0 md:space-x-8 w-full px-4">
+            <Link href="/upcoming-events" className="w-full md:w-auto">
+              <button className="w-full md:w-auto bg-black border-2 hover:border-[#73daa6] text-white font-semibold rounded-3xl px-8 py-4 transform hover:scale-105 transition-all duration-300 shadow-lg shadow-green-500/45">
+                Explore our events
+              </button>
+            </Link>
+
+            <Link href="/Recap" className="w-full md:w-auto">
+              <button className="w-full md:w-auto bg-black border-2 hover:border-[#73daa6] text-white font-semibold rounded-3xl px-8 py-4 transform hover:scale-105 transition-all duration-300 shadow-lg shadow-green-500/45">
+                Recap
+              </button>
+            </Link>
+
+            <Link href="/ongoingprojects" className="w-full md:w-auto">
+              <button className="w-full md:w-auto bg-black border-2 hover:border-[#73daa6] text-white font-semibold rounded-3xl px-8 py-4 transform hover:scale-105 transition-all duration-300 shadow-lg shadow-green-500/45">
+                Ongoing Projects
+              </button>
+            </Link>
+          </div>
         </div>
+
         <div className="w-full mt-12 md:mt-16">
           <ShortsHighlightsView />
         </div>

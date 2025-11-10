@@ -40,7 +40,7 @@ const events = [
 
 const teamMembers = [
   { name: "Valyrian", role: "Nothing cuts like Valryian's grace!", image: "/valerian.jpg" },
-  { name: "BotBowlers", role: "Code, Kick, Conquer", image: "/hero_img.jpg" },
+  { name: "BotBowlers", role: "Code, Kick, Conquer", image: "/BotBowlers.jpg" },
   { name: "404 Not Found", role: "When the code meets the goal", image: "/hero_img.jpg" },
   { name: "Robo United", role: "Glory Glory Robo Utd", image: "/robounited.jpg" },
   { name: "Mech-X4!", role: "If You Never Accept the Frustration of Losing, You'll Never Grow.", image: "/mechX4.jpg" },
@@ -48,8 +48,8 @@ const teamMembers = [
   { name: "The Innovators ", role: "WE WILL BE BACK", image: "/hero_img.jpg" },
   { name: "Robo Rangers", role: "Tomorrow by Together ", image: "/hero_img.jpg" },
   { name: "Survivors", role: "will show whats winning feels like", image: "/hero_img.jpg" },
-   { name: "Victory squad ", role: "Hello World", image: "/hero_img.jpg" }, 
-   { name: "RoboQuad", role: "You should  quit one day", image: "/hero_img.jpg" },
+   { name: "Victory squad ", role: "Hello World", image: "/victorysquad.jpg" }, 
+   { name: "RoboQuad", role: "You should  quit one day", image: "/RoboQuad.jpg" },
    { name: "Tech Titans", role: " Together  towards Tomorrow", image: "/techtitans.jpg" },
   
  ];
