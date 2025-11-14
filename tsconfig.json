@@ -33,7 +33,7 @@
     ".next/types/**/*.ts",
     "**/*.ts",
     "**/*.tsx"
-, "src/app/dashboard/user/[uid]/page.jsx", "src/app/dashboard/user/[uid]/page.jsx", "src/components/RoboLeaderboard.jsx", "src/app/Robo-Leaderboard/page.jsx"  ],
+, "src/app/dashboard/user/[uid]/page.jsx", "src/app/dashboard/user/[uid]/page.jsx", "src/components/RoboLeaderboard.jsx", "src/app/Robo-Leaderboard/page.jsx", "src/components/LandingComponents/Performance.tsx"  ],
   "exclude": [
     "node_modules"
   ]
