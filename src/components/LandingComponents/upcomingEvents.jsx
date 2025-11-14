@@ -1,9 +1,8 @@
-'use client';
-import React, { useState, useEffect, useRef } from 'react';
-import { NavBar } from './NavBar';
-import Link from 'next/link';
-import { motion } from 'framer-motion';
-
+"use client";
+import React, { useState, useEffect } from "react";
+import { NavBar } from "./NavBar";
+import Link from "next/link";
+import { motion } from "framer-motion";
 
 const events = [
   {
@@ -37,7 +36,6 @@ const events = [
   },
 ];
 
-
 const teamMembers = [
   { name: "Valyrian", role: "Nothing cuts like Valryian's grace!", image: "/valerian.jpg" },
   { name: "BotBowlers", role: "Code, Kick, Conquer", image: "/BotBowlers.jpg" },
@@ -48,12 +46,10 @@ const teamMembers = [
   { name: "The Innovators ", role: "WE WILL BE BACK", image: "/hero_img.jpg" },
   { name: "Robo Rangers", role: "Tomorrow by Together ", image: "/hero_img.jpg" },
   { name: "Survivors", role: "will show whats winning feels like", image: "/hero_img.jpg" },
-   { name: "Victory squad ", role: "Hello World", image: "/victorysquad.jpg" }, 
-   { name: "RoboQuad", role: "You should  quit one day", image: "/RoboQuad.jpg" },
-   { name: "Tech Titans", role: " Together  towards Tomorrow", image: "/techtitans.jpg" },
-  
- ];
-
+  { name: "Victory squad ", role: "Hello World", image: "/victorysquad.jpg" },
+  { name: "RoboQuad", role: "You should  quit one day", image: "/RoboQuad.jpg" },
+  { name: "Tech Titans", role: " Together  towards Tomorrow", image: "/techtitans.jpg" },
+];
 
 const UpcomingEvents = () => {
   const [selectedEvent, setSelectedEvent] = useState(null);
@@ -61,6 +57,8 @@ const UpcomingEvents = () => {
   const [popupMember, setPopupMember] = useState(null);
   const [rotation, setRotation] = useState(0);
 
+  // ⭐ Registration popup
+  const [showRegisterPopup, setShowRegisterPopup] = useState(false);
 
   const goBack = () => {
     setSelectedEvent(null);
@@ -68,22 +66,19 @@ const UpcomingEvents = () => {
     setPopupMember(null);
   };
 
-
-  // 🌀 Auto-rotation with fixed speed
   useEffect(() => {
     if (!showTeam) return;
-    
+
     const interval = setInterval(() => {
-      setRotation((prev) => prev + 0.5); // Fixed rotation speed
-    }, 50); // Update every 50ms for smooth animation
-    
+      setRotation((prev) => prev + 0.5);
+    }, 50);
+
     return () => clearInterval(interval);
   }, [showTeam]);
 
-
+  // 🔥 Event Details Page
   if (selectedEvent) {
     const event = events.find((e) => e.id === selectedEvent);
-
 
     return (
       <div className="min-h-screen bg-black text-white">
@@ -96,18 +91,14 @@ const UpcomingEvents = () => {
             ← Back to Events
           </button>
 
-
           {/* Event Info */}
           <div className="bg-[#0a0a0a] border border-green-900/30 rounded-3xl p-8 shadow-[0_0_10px_rgba(0,255,150,0.08)] max-w-4xl mx-auto text-center">
             <p className="text-green-400 text-sm mb-1 font-semibold">
               {event.subtitle}
             </p>
             <h2 className="text-3xl md:text-4xl font-bold mb-2">{event.tag}</h2>
-            <h3 className="text-lg md:text-xl text-gray-300 mb-3">
-              {event.title}
-            </h3>
+            <h3 className="text-lg md:text-xl text-gray-300 mb-3">{event.title}</h3>
             <p className="text-gray-400 mb-6">{event.desc}</p>
-
 
             {event.details && (
               <>
@@ -115,32 +106,44 @@ const UpcomingEvents = () => {
                   About the Event
                 </h3>
                 <p className="text-gray-300 mb-4">{event.details.about}</p>
+
                 <h4 className="text-green-400 font-semibold mb-2">Highlights</h4>
                 <ul className="list-disc list-inside text-gray-400 mb-4 space-y-1 text-left">
                   {event.details.highlights.map((item, idx) => (
                     <li key={idx}>{item}</li>
                   ))}
                 </ul>
+
                 <p className="text-gray-500 italic">{event.details.note}</p>
+
                 <div className="flex justify-center gap-4 mt-8">
+
                   <Link href="/Robo-Leaderboard">
                     <button className="bg-[#00ff99] text-black px-6 py-3 rounded-xl font-semibold hover:scale-105 transition-transform duration-300">
                       View Leaderboard
                     </button>
                   </Link>
+
                   <button
                     onClick={() => setShowTeam((prev) => !prev)}
-                    className="border border-green-500 text-green-400 px-6 py-3 rounded-xl font-semibold hover:bg-green-600 hover:text-black transition-transform transform hover:scale-105 duration-300"
+                    className="border border-green-400 text-green-400 px-6 py-3 rounded-xl font-semibold hover:bg-green-500 hover:text-black transition-transform hover:scale-105 duration-300"
                   >
-                    {showTeam ? 'Hide Team' : 'Meet the Team'}
+                    {showTeam ? "Hide Team" : "Meet the Team"}
+                  </button>
+
+                  {/* ⭐ Register Button */}
+                  <button
+                    onClick={() => setShowRegisterPopup(true)}
+                    className="bg-green-400 hover:bg-green-500 px-6 py-3 rounded-xl text-black font-semibold"
+                  >
+                    Register
                   </button>
                 </div>
               </>
             )}
           </div>
 
-
-          {/* Circular Carousel */}
+          {/* Team Carousel */}
           {showTeam && (
             <motion.div
               initial={{ opacity: 0, y: 60 }}
@@ -152,16 +155,15 @@ const UpcomingEvents = () => {
                 Meet the Team
               </h2>
 
-
               <div className="relative flex justify-center items-center py-10 w-full select-none">
                 <div
                   className="relative flex justify-center items-center"
                   style={{
-                    perspective: '1200px',
-                    transformStyle: 'preserve-3d',
-                    width: '600px',
-                    height: '400px',
-                    transform: 'translateZ(-400px)',
+                    perspective: "1200px",
+                    transformStyle: "preserve-3d",
+                    width: "600px",
+                    height: "400px",
+                    transform: "translateZ(-400px)",
                   }}
                 >
                   {teamMembers.map((member, i) => (
@@ -169,27 +171,24 @@ const UpcomingEvents = () => {
                       key={i}
                       className="absolute w-[150px] h-[200px] bg-[#0d0d0d] border border-green-800/40 rounded-xl p-4 shadow-[0_0_15px_rgba(0,255,150,0.1)] flex flex-col items-center justify-center text-center cursor-pointer hover:scale-105 transition-transform"
                       style={{
-                        transform: `rotateY(${rotation + i * (360 / teamMembers.length)}deg) translateZ(400px)`,
-                        transformOrigin: 'center center',
+                        transform: `rotateY(${
+                          rotation + i * (360 / teamMembers.length)
+                        }deg) translateZ(400px)`,
                       }}
                       onClick={() => setPopupMember(member)}
                     >
                       <img
                         src={member.image}
-                        alt={member.name}
-                        className="w-28 h-28 object-cover rounded-md border-2 border-green-500 mb-3"
+                        className="w-28 h-28 rounded-md object-cover border-2 border-green-500 mb-3"
                       />
-                      <h3 className="text-lg font-semibold text-gray-100 mb-1">
-                        {member.name}
-                      </h3>
+                      <h3 className="text-lg font-semibold text-gray-100">{member.name}</h3>
                       <p className="text-xs text-green-400">{member.role}</p>
                     </motion.div>
                   ))}
                 </div>
               </div>
 
-
-              {/* Popup */}
+              {/* Member Popup */}
               {popupMember && (
                 <div
                   className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50"
@@ -204,21 +203,15 @@ const UpcomingEvents = () => {
                   >
                     <img
                       src={popupMember.image}
-                      alt={popupMember.name}
-                      className="w-40 h-40 object-cover rounded-md border-2 border-green-500 mx-auto mb-3"
+                      className="w-40 h-40 rounded-md border-2 border-green-400 mx-auto mb-3"
                     />
-                    <h3 className="text-xl font-semibold text-white mb-1">
+                    <h3 className="text-xl text-white font-semibold mb-1">
                       {popupMember.name}
                     </h3>
-                    <p className="text-green-400 mb-2 text-sm">
-                      {popupMember.role}
-                    </p>
-                    <p className="text-gray-400 text-sm">
-                      Passionate about technology, innovation, and teamwork!
-                    </p>
+                    <p className="text-green-400 mb-2 text-sm">{popupMember.role}</p>
                     <button
                       onClick={() => setPopupMember(null)}
-                      className="mt-5 bg-green-500 text-black px-6 py-2 rounded-xl font-semibold hover:bg-green-600 transition"
+                      className="mt-5 bg-green-500 text-black px-6 py-2 rounded-xl hover:bg-green-600"
                     >
                       Close
                     </button>
@@ -228,22 +221,55 @@ const UpcomingEvents = () => {
             </motion.div>
           )}
         </div>
+
+        {/* ⭐ Registration Popup */}
+        {showRegisterPopup && (
+          <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50">
+            <div className="bg-[#0a0a0a] border border-green-700 rounded-2xl p-8 shadow-lg max-w-sm w-full text-center">
+
+              <h2 className="text-2xl font-bold mb-4 text-green-400">
+                Register For
+              </h2>
+
+              <div className="flex flex-col gap-4">
+
+                <Link href="/Performance">
+                  <button className="bg-green-400 text-black px-6 py-3 rounded-xl font-semibold hover:bg-green-600 w-full transition">
+                    Performance
+                  </button>
+                </Link>
+
+                <Link href="/Stalls">
+                  <button className="bg-green-400 text-black px-6 py-3 rounded-xl font-semibold hover:bg-green-600 w-full transition">
+                    Stalls
+                  </button>
+                </Link>
+
+              </div>
+
+              <button
+                onClick={() => setShowRegisterPopup(false)}
+                className="mt-6 text-gray-400 hover:text-white"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     );
   }
 
-
-  // Events List
+  // 🔥 Events List Page
   return (
     <div className="min-h-screen bg-black text-white">
       <NavBar />
       <div className="pt-24 text-center">
         <h1 className="text-5xl font-extrabold tracking-wide">
-          <span className="text-gray-400">UPCOMING</span>{' '}
+          <span className="text-gray-400">UPCOMING</span>{" "}
           <span className="text-white">EVENTS</span>
         </h1>
       </div>
-
 
       <div className="flex flex-col items-center gap-10 mt-14 px-6 md:px-20 pb-20">
         {events.map((event, index) => (
@@ -260,18 +286,17 @@ const UpcomingEvents = () => {
               <p className="text-green-400 text-sm mb-1 font-semibold">
                 {event.subtitle}
               </p>
-              <h2 className="text-2xl md:text-3xl font-bold mb-3">
-                {event.tag}
-              </h2>
-              <h3 className="text-lg md:text-xl text-gray-300 mb-3">
-                {event.title}
-              </h3>
+
+              <h2 className="text-2xl md:text-3xl font-bold mb-3">{event.tag}</h2>
+              <h3 className="text-lg md:text-xl text-gray-300 mb-3">{event.title}</h3>
               <p className="text-sm text-gray-400 mb-6">{event.desc}</p>
+
               <button
-                className={`${event.buttonStyle} px-6 py-3 rounded-xl font-semibold transition-transform transform hover:scale-105 duration-300`}
+                className={`${event.buttonStyle} px-6 py-3 rounded-xl font-semibold transition-transform hover:scale-105 duration-300`}
               >
                 {event.buttonText}
               </button>
+
               <p className="text-gray-500 italic mt-3 text-sm">
                 Click to view details →
               </p>
@@ -282,6 +307,5 @@ const UpcomingEvents = () => {
     </div>
   );
 };
-
 
 export default UpcomingEvents;
