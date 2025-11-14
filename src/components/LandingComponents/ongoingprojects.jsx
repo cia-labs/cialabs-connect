@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { NavBar } from './NavBar';
 import { motion } from 'framer-motion';
+import { useRouter } from 'next/navigation';
 
 const projects = [
   {
@@ -48,6 +49,7 @@ const projects = [
 
 const OngoingProjects = () => {
   const [selectedProject, setSelectedProject] = useState(null);
+  const router = useRouter();
 
   const goBack = () => {
     setSelectedProject(null);
@@ -90,6 +92,17 @@ const OngoingProjects = () => {
               ))}
             </ul>
             <p className="text-gray-500 italic">{project.details.note}</p>
+
+            {project.id === 1 && (
+              <div className="mt-6">
+                <button
+                  onClick={() => router.push('/session50')}
+                  className="px-4 py-2 rounded-md bg-green-500 text-black font-semibold hover:bg-green-600 transition"
+                >
+                  Go to Session 50
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -118,7 +131,7 @@ const OngoingProjects = () => {
             className="w-full max-w-3xl cursor-pointer"
             onClick={() => setSelectedProject(project.id)}
           >
-            <div className="bg-[#0a0a0a] border border-green-900/30 rounded-3xl shadow-[0_0_15px_rgba(0,255,150,0.08)] p-8 hover:shadow-[0_0_25px_rgba(0,255,150,0.15)] transition-all duration-500">
+            <div className="bg-[#0a0a0a] border border-green-900/30 rounded-3xl shadow-[0_0_15px_rgba(0,255,150,0.08)] p-8 hover:shadow-[0_0_25px_rgba(0,255,150,0.15)] transition-all duration-500 relative">
               <p className="text-green-400 text-sm mb-1 font-semibold">
                 {project.subtitle}
               </p>
@@ -129,6 +142,21 @@ const OngoingProjects = () => {
                 {project.title}
               </h3>
               <p className="text-sm text-gray-400 mb-6">{project.desc}</p>
+
+              {project.id === 1 && (
+                <div className="flex items-center justify-center md:justify-start gap-3">
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation(); // prevent opening details view
+                      router.push('/session50');
+                    }}
+                    className="px-4 py-2 rounded-md bg-green-500 text-black font-semibold hover:bg-green-600 transition"
+                  >
+                    Go to Session 50
+                  </button>
+                </div>
+              )}
+
               <p className="text-gray-500 italic mt-3 text-sm">
                 Click to view details →
               </p>
