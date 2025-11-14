@@ -1,29 +1,9 @@
-// import React from 'react'
-// import {NavBar} from './NavBar';
-// import Link from 'next/link';
-
-// const upcomingEvents = () => {
-//   return (
-//     <div>
-//       <NavBar/>
-//       <h1 className='text-green-500/40 text-center text-5xl mt-100'>Coming Soon....</h1>
-//       <br/>
-//       <Link href="/Robo-Leaderboard">
-//   <span className='border-1 border-green-600 items-center text-green-500 px-4 py-2 rounded-md hover:bg-green-600 hover:text-black mx-auto flex w-fit transition-all duration-300'>
-//     Robo-LeaderBoard
-//   </span>
-// </Link>
-//     </div>
-//   )
-// }
-
-// export default upcomingEvents;
-
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { NavBar } from './NavBar';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+
 
 const events = [
   {
@@ -57,84 +37,23 @@ const events = [
   },
 ];
 
-// 🔹 Team Members Array (Add your image links here)
+
 const teamMembers = [
-  {
-    name: "Valyrian",
-    role: " “Unleash the Valyrian Fury!”",
-    image: "/1.jpeg", // 🔸 Replace with your image link
-  },
-  {
-    name: "BotBowlers",
-    role: "Code, Kick, Conquer",
-    image: "/2.jpeg",
-  },
-  {
-    name: "404 Not Found ",
-    role: "When the code meets the goal",
-    image: "/3.jpeg",
-  },
-  {
-    name: "Robo United ",
-    role: "Glory Glory Robo Utd",
-    image: "/4.jpeg",
-  },
-  {
-    name: "Mech-X4!",
-    role: "If You Never Accept the Frustration of Losing, You’ll Never Grow.",
-    image: "/5.jpeg",
-  },
-  {
-    name: "Robrawler",
-    role: "तेज और उग्र",
-    image: "/6.jpeg",
-  },
-  {
-    name: "Sanya",
-    role: "Design Lead",
-    image: "/7.jpeg",
-  },
-  {
-    name: "Rohit",
-    role: "Backend Engineer",
-    image: "/1.jpeg",
-  },
-  {
-    name: "Diya",
-    role: "Marketing Head",
-    image: "/2.jpeg",
-  },
-  {
-    name: "Nikhil",
-    role: "Frontend Developer",
-    image: "/3.jpeg",
-  },
-  {
-    name: "Sara",
-    role: "ML Researcher",
-    image: "/4.jpeg",
-  },
-  {
-    name: "Arjun",
-    role: "Robotics Engineer",
-    image: "/5.jpeg",
-  },
-  {
-    name: "Neha",
-    role: "Project Manager",
-    image: "/6.jpeg",
-  },
-  {
-    name: "Kabir",
-    role: "Game Developer",
-    image: "/7.jpeg",
-  },
-  {
-    name: "Meera",
-    role: "Content Strategist",
-    image: "/6.jpeg",
-  },
-];
+  { name: "Valyrian", role: "Nothing cuts like Valryian's grace!", image: "/valerian.jpg" },
+  { name: "BotBowlers", role: "Code, Kick, Conquer", image: "/BotBowlers.jpg" },
+  { name: "404 Not Found", role: "When the code meets the goal", image: "/hero_img.jpg" },
+  { name: "Robo United", role: "Glory Glory Robo Utd", image: "/robounited.jpg" },
+  { name: "Mech-X4!", role: "If You Never Accept the Frustration of Losing, You'll Never Grow.", image: "/mechX4.jpg" },
+  { name: "Robrawler", role: "तेज और उग्र", image: "/hero_img.jpg" },
+  { name: "The Innovators ", role: "WE WILL BE BACK", image: "/hero_img.jpg" },
+  { name: "Robo Rangers", role: "Tomorrow by Together ", image: "/hero_img.jpg" },
+  { name: "Survivors", role: "will show whats winning feels like", image: "/hero_img.jpg" },
+   { name: "Victory squad ", role: "Hello World", image: "/victorysquad.jpg" }, 
+   { name: "RoboQuad", role: "You should  quit one day", image: "/RoboQuad.jpg" },
+   { name: "Tech Titans", role: " Together  towards Tomorrow", image: "/techtitans.jpg" },
+  
+ ];
+
 
 const UpcomingEvents = () => {
   const [selectedEvent, setSelectedEvent] = useState(null);
@@ -142,21 +61,32 @@ const UpcomingEvents = () => {
   const [popupMember, setPopupMember] = useState(null);
   const [rotation, setRotation] = useState(0);
 
+
   const goBack = () => {
     setSelectedEvent(null);
     setShowTeam(false);
     setPopupMember(null);
   };
 
-  const rotateCarousel = (direction) => {
-    setRotation((prev) => prev + direction * 24); // 360/15=24 degrees
-  };
+
+  // 🌀 Auto-rotation with fixed speed
+  useEffect(() => {
+    if (!showTeam) return;
+    
+    const interval = setInterval(() => {
+      setRotation((prev) => prev + 0.5); // Fixed rotation speed
+    }, 50); // Update every 50ms for smooth animation
+    
+    return () => clearInterval(interval);
+  }, [showTeam]);
+
 
   if (selectedEvent) {
     const event = events.find((e) => e.id === selectedEvent);
 
+
     return (
-      <div className="min-h-screen bg-black text-white overflow-hidden">
+      <div className="min-h-screen bg-black text-white">
         <NavBar />
         <div className="px-6 md:px-20 py-24">
           <button
@@ -165,6 +95,7 @@ const UpcomingEvents = () => {
           >
             ← Back to Events
           </button>
+
 
           {/* Event Info */}
           <div className="bg-[#0a0a0a] border border-green-900/30 rounded-3xl p-8 shadow-[0_0_10px_rgba(0,255,150,0.08)] max-w-4xl mx-auto text-center">
@@ -176,6 +107,7 @@ const UpcomingEvents = () => {
               {event.title}
             </h3>
             <p className="text-gray-400 mb-6">{event.desc}</p>
+
 
             {event.details && (
               <>
@@ -200,12 +132,13 @@ const UpcomingEvents = () => {
                     onClick={() => setShowTeam((prev) => !prev)}
                     className="border border-green-500 text-green-400 px-6 py-3 rounded-xl font-semibold hover:bg-green-600 hover:text-black transition-transform transform hover:scale-105 duration-300"
                   >
-                    Meet the Team
+                    {showTeam ? 'Hide Team' : 'Meet the Team'}
                   </button>
                 </div>
               </>
             )}
           </div>
+
 
           {/* Circular Carousel */}
           {showTeam && (
@@ -219,7 +152,8 @@ const UpcomingEvents = () => {
                 Meet the Team
               </h2>
 
-              <div className="relative flex justify-center items-center py-10 w-full overflow-hidden">
+
+              <div className="relative flex justify-center items-center py-10 w-full select-none">
                 <div
                   className="relative flex justify-center items-center"
                   style={{
@@ -233,11 +167,10 @@ const UpcomingEvents = () => {
                   {teamMembers.map((member, i) => (
                     <motion.div
                       key={i}
-                      className="absolute w-[150px] h-[200px] bg-[#0d0d0d] border border-green-800/40 rounded-xl p-4 shadow-[0_0_15px_rgba(0,255,150,0.1)] flex flex-col items-center justify-center text-center cursor-pointer"
+                      className="absolute w-[150px] h-[200px] bg-[#0d0d0d] border border-green-800/40 rounded-xl p-4 shadow-[0_0_15px_rgba(0,255,150,0.1)] flex flex-col items-center justify-center text-center cursor-pointer hover:scale-105 transition-transform"
                       style={{
-                        transform: `rotateY(${rotation + i * 24}deg) translateZ(400px)`,
+                        transform: `rotateY(${rotation + i * (360 / teamMembers.length)}deg) translateZ(400px)`,
                         transformOrigin: 'center center',
-                        transition: 'transform 1s ease-in-out',
                       }}
                       onClick={() => setPopupMember(member)}
                     >
@@ -253,21 +186,8 @@ const UpcomingEvents = () => {
                     </motion.div>
                   ))}
                 </div>
-
-                {/* Rotate Buttons */}
-                <button
-                  className="absolute left-16 text-green-400 hover:text-green-200 text-4xl font-bold"
-                  onClick={() => rotateCarousel(-1)}
-                >
-                  ‹
-                </button>
-                <button
-                  className="absolute right-16 text-green-400 hover:text-green-200 text-4xl font-bold"
-                  onClick={() => rotateCarousel(1)}
-                >
-                  ›
-                </button>
               </div>
+
 
               {/* Popup */}
               {popupMember && (
@@ -312,6 +232,7 @@ const UpcomingEvents = () => {
     );
   }
 
+
   // Events List
   return (
     <div className="min-h-screen bg-black text-white">
@@ -323,7 +244,8 @@ const UpcomingEvents = () => {
         </h1>
       </div>
 
-      <div className="flex flex-col items-center gap-10 mt-14 px-6 md:px-20">
+
+      <div className="flex flex-col items-center gap-10 mt-14 px-6 md:px-20 pb-20">
         {events.map((event, index) => (
           <motion.div
             key={event.id}
@@ -360,5 +282,6 @@ const UpcomingEvents = () => {
     </div>
   );
 };
+
 
 export default UpcomingEvents;
